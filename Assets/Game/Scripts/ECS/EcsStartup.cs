@@ -1,5 +1,6 @@
 using System;
 using Common;
+using Database;
 using ECS.FSM;
 using ECS.Systems;
 using ECS.Systems.Battle;
@@ -9,6 +10,7 @@ using ECS.Systems.UI;
 using FPS;
 using JetBrains.Lifetimes;
 using Leopotam.EcsLite;
+using Unity.Cinemachine;
 using UnityEngine;
 using VContainer;
 using VContainer.Unity;
@@ -19,7 +21,9 @@ namespace ECS
 	public class EcsStartup : MonoBehaviour
 	{
 		[SerializeField, Get] private LifetimeScope _scope;
-		[SerializeField] private Database.CMS _cms;
+		[SerializeField] private CMS _cms;
+		[SerializeField] private CinemachineCamera _mainCamera;
+		
 
 		private readonly LifetimeDefinition _appDefinition = new();
 		private EcsSystems _systems;
@@ -31,6 +35,7 @@ namespace ECS
 			_scope.CreateChild(builder =>
 			{
 				builder.RegisterInstance(_appDefinition.Lifetime);
+				builder.RegisterInstance(_mainCamera);
 				builder.RegisterInstance(_cms);
 				builder.RegisterInstance(inputs);
 				builder.Register<RuntimeData>(Lifetime.Singleton);
