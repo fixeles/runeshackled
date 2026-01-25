@@ -21,15 +21,18 @@ namespace ECS
 		[SerializeField, Get] private LifetimeScope _scope;
 		[SerializeField] private Database.CMS _cms;
 
-		private readonly LifetimeDefinition _appDefinition = new ();
+		private readonly LifetimeDefinition _appDefinition = new();
 		private EcsSystems _systems;
 
 		public void Start()
 		{
+			var inputs = new GameInputs();
+			inputs.Enable();
 			_scope.CreateChild(builder =>
 			{
 				builder.RegisterInstance(_appDefinition.Lifetime);
 				builder.RegisterInstance(_cms);
+				builder.RegisterInstance(inputs);
 				builder.Register<RuntimeData>(Lifetime.Singleton);
 				builder.Register<TimerService>(Lifetime.Singleton);
 				builder.Register<GameProgress>(Lifetime.Singleton);
@@ -72,11 +75,15 @@ namespace ECS
 				#endregion
 
 				#region Hub
+
 				#endregion
 
 				#region Battle
+
 				.Add(CreateSystem<BuildMapSystem>())
 				.Add(CreateSystem<SpawnPlayerSystem>())
+				.Add(CreateSystem<PlayerInputSystem>())
+				.Add(CreateSystem<MoveSystem>())
 
 				#endregion
 

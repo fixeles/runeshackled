@@ -15,7 +15,7 @@ namespace ECS.Systems.Common
 		{
 			_world = world;
 			AddRequest<CreateRequest>();
-			// AddRequest<CleanRequest>();
+			AddRequest<MoveRequest>();
 			AddRequest<ClickRequest>();
 		}
 

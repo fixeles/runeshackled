@@ -7,5 +7,12 @@ namespace ECS.Mono
 	public class UnitView : MonoBehaviour
 	{
 		[field: SerializeField, Get] public NavMeshAgent Agent { get; private set; }
+		
+		public Transform CachedTransform { get; private set; }
+
+		private void Awake()
+		{
+			CachedTransform = transform;
+		}
 	}
 }

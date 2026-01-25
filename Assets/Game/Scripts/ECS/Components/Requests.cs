@@ -1,4 +1,5 @@
 ﻿using FPS.UI;
+using UnityEngine;
 
 namespace ECS.Components
 {
@@ -11,4 +12,9 @@ namespace ECS.Components
 	public struct CreateRequest { }
 
 	public struct CleanRequest { }
+
+	public struct MoveRequest
+	{
+		public Vector3 Position;
+	}
 }
