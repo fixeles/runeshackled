@@ -1,17 +1,13 @@
 using System;
-using Buildings;
-using CMS;
 using Common;
 using ECS.FSM;
 using ECS.Systems;
 using ECS.Systems.Common;
-using ECS.Systems.Hub;
 using ECS.Systems.Timer;
 using ECS.Systems.UI;
 using FPS;
 using JetBrains.Lifetimes;
 using Leopotam.EcsLite;
-using Network;
 using UnityEngine;
 using VContainer;
 using VContainer.Unity;
@@ -22,7 +18,7 @@ namespace ECS
 	public class EcsStartup : MonoBehaviour
 	{
 		[SerializeField, Get] private LifetimeScope _scope;
-		[SerializeField] private AssetProvider _assetProvider;
+		[SerializeField] private Database.CMS _cms;
 
 		private readonly LifetimeDefinition _appDefinition = new ();
 		private EcsSystems _systems;
@@ -32,11 +28,10 @@ namespace ECS
 			_scope.CreateChild(builder =>
 			{
 				builder.RegisterInstance(_appDefinition.Lifetime);
-				builder.RegisterInstance(_assetProvider);
+				builder.RegisterInstance(_cms);
 				builder.Register<RuntimeData>(Lifetime.Singleton);
-				builder.Register<TimerInitializer>(Lifetime.Singleton);
-				builder.Register<User>(Lifetime.Singleton);
-				builder.Register<ApiService>(Lifetime.Singleton);
+				builder.Register<TimerService>(Lifetime.Singleton);
+				builder.Register<GameProgress>(Lifetime.Singleton);
 				builder.Register<AppStateMachine>(Lifetime.Singleton).As<IAppStateMachine>();
 				builder.RegisterInstance<EcsWorld>(new());
 				builder.RegisterBuildCallback(InitSystems);
@@ -63,7 +58,6 @@ namespace ECS
 
 				.Add(CreateSystem<AppInitState>())
 				.Add(CreateSystem<HubState>())
-				.Add(CreateSystem<PreBattleState>())
 				.Add(CreateSystem<HubBuilder>())
 				.Add(CreateSystem<IAppStateMachine>())
 
@@ -73,21 +67,10 @@ namespace ECS
 
 				.Add(CreateSystem<CloseWindowSystem>())
 				.Add(CreateSystem<HubUISystem>())
-				.Add(CreateSystem<LoginUISystem>())
-				.Add(CreateSystem<BattlePreparationUISystem>())
 
 				#endregion
 
 				#region Hub
-				.Add(CreateSystem<BuildingsLoadSystem>())
-				.Add(CreateSystem<BuildingSpawnSystem>())
-				#endregion
-
-				#region PreBattle
-
-				.Add(CreateSystem<DrawingSystem>())
-				.Add(CreateSystem<UnitSpawnSystem>())
-
 				#endregion
 
 				#region Battle

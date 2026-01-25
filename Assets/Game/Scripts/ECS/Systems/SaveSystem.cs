@@ -1,7 +1,5 @@
 using Common;
-using Cysharp.Threading.Tasks;
 using Leopotam.EcsLite;
-using Network;
 using UnityEngine;
 using VContainer;
 
@@ -9,25 +7,22 @@ namespace ECS.Systems
 {
 	public class SaveSystem : IEcsPostDestroySystem, IEcsRunSystem
 	{
-		private readonly User _user;
-		private readonly ApiService _apiService;
+		private readonly GameProgress _gameProgress;
 
 		
 		[Inject]
-		public SaveSystem(User user, ApiService apiService)
+		public SaveSystem(GameProgress gameProgress)
 		{
-			_user = user;
-			_apiService = apiService;
+			_gameProgress = gameProgress;
 		}
 
 		public void PostDestroy(IEcsSystems systems)
 		{
-			_apiService.SyncUserData(_user).Forget();
 		}
 
 		public void Run(IEcsSystems systems)
 		{
-			_user.Playtime += Time.deltaTime;
+			_gameProgress.Playtime += Time.deltaTime;
 		}
 	}
 }

@@ -1,10 +1,9 @@
 using Leopotam.EcsLite;
 using VContainer;
-using VContainer.Unity;
 
 namespace ECS.Systems.Timer
 {
-	public class TimerInitializer
+	public class TimerService
 	{
 		private readonly EcsWorld _world;
 
@@ -12,14 +11,9 @@ namespace ECS.Systems.Timer
 		private EcsPool<TimerComponent> Pool => _world.GetPool<TimerComponent>();
 
 		[Inject]
-		public TimerInitializer(EcsWorld world)
+		public TimerService(EcsWorld world)
 		{
 			_world = world;
-		}
-
-		public void CreateBuildingTimer(int buildingId)
-		{
-			
 		}
 	}
 }

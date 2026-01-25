@@ -1,6 +1,6 @@
 using System.Collections.Generic;
-using CMS;
 using Common;
+using Database;
 using FPS.Pool;
 using JetBrains.Collections.Viewable;
 using UnityEngine;
@@ -14,15 +14,15 @@ namespace UI
 		private readonly IViewableMap<string, int> _categorizedInventory = new ViewableMap<string, int>();
 		private readonly Dictionary<string, UIInventoryCellView> _inventoryCells = new();
 		private readonly IObjectPool _objectPool;
-		private readonly User _user;
-		private readonly AssetProvider _assetProvider;
+		private readonly GameProgress _gameProgress;
+		private readonly CMS _cms;
 
 		[Inject]
-		public InventoryObserver(IObjectPool objectPool, User user, AssetProvider assetProvider)
+		public InventoryObserver(IObjectPool objectPool, GameProgress gameProgress, CMS cms)
 		{
 			_objectPool = objectPool;
-			_user = user;
-			_assetProvider = assetProvider;
+			_gameProgress = gameProgress;
+			_cms = cms;
 		}
 
 		public void Init(Lifetime lifetime, Transform parent, HashSet<string> category)
@@ -38,7 +38,7 @@ namespace UI
 				{
 					case AddUpdateRemove.Add:
 						var cell = _objectPool.Get<UIInventoryCellView>();
-						cell.Icon = _assetProvider.Sprites[mapEvent.Key];
+						cell.Icon = _cms.Sprites[mapEvent.Key];
 						cell.Count = mapEvent.NewValue.ToString();
 						cell.transform.SetParent(parent, false);
 						_inventoryCells.Add(mapEvent.Key, cell);
@@ -67,7 +67,7 @@ namespace UI
 
 		private void Bind(Lifetime lifetime, HashSet<string> category)
 		{
-			_user.Inventory.AllItems.Advise(lifetime, OnInventoryUpdate);
+			_gameProgress.Inventory.AllItems.Advise(lifetime, OnInventoryUpdate);
 			return;
 
 			void OnInventoryUpdate(MapEvent<string, int> mapEvent)

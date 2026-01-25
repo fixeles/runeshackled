@@ -3,7 +3,6 @@
     "com.cysharp.unitask": "https://github.com/Cysharp/UniTask.git?path=src/UniTask/Assets/Plugins/UniTask",
     "com.fps.core": "https://github.com/fixeles/fps-core.git",
     "com.fps.pool": "https://github.com/fixeles/fluffy-pool.git",
-    "com.fps.sheets": "https://github.com/fixeles/fluffy-sheets.git",
     "com.fps.utils": "https://github.com/fixeles/fluffy-utils.git",
     "com.github-glitchenzo.nugetforunity": "https://github.com/GlitchEnzo/NuGetForUnity.git?path=/src/NuGetForUnity",
     "com.leopotam.ecslite": "https://github.com/Leopotam/ecslite.git",

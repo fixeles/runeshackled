@@ -2,7 +2,7 @@ using System;
 using FPS;
 using UnityEngine;
 
-namespace CMS
+namespace Database
 {
 	[Serializable]
 	public struct Sprites

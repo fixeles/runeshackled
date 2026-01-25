@@ -1,7 +1,5 @@
 ﻿using Common;
-using DTO;
 using FPS;
-using FPS.Sheets;
 using UnityEngine;
 using VContainer;
 
@@ -9,28 +7,26 @@ namespace Commands
 {
 	public class LoadLocalDataCommand : SyncCommand
 	{
-		private readonly DTOStorage _dtoStorage;
-		private readonly User _user;
+		private readonly GameProgress _gameProgress;
 
 		[Inject]
-		public LoadLocalDataCommand(DTOStorage dtoStorage, User user)
+		public LoadLocalDataCommand(GameProgress gameProgress)
 		{
-			_dtoStorage = dtoStorage;
-			_user = user;
+			_gameProgress = gameProgress;
 		}
 
 		public override void Do()
 		{
 			//local save
-			bool hasSave = PlayerPrefs.HasKey(Constants.UserPrefsKey);
+			bool hasSave = PlayerPrefs.HasKey(Constants.ProgressPrefsKey);
 			if (hasSave)
 			{
-				var encodedData = PlayerPrefs.GetString(Constants.UserPrefsKey);
-				_user.Deserialize(GZip.Decode(encodedData));
+				var encodedData = PlayerPrefs.GetString(Constants.ProgressPrefsKey);
+				_gameProgress.Deserialize(GZip.Decode(encodedData));
 			}
 			else
 			{
-				_user.SetDefaults(_dtoStorage.GetSingle<UserDTO>());
+				// _user.SetDefaults(_dtoStorage.GetSingle<UserDTO>());
 			}
 
 			Status = CommandStatus.Success;

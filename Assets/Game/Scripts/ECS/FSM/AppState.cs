@@ -5,6 +5,7 @@ namespace ECS.FSM
         Init = 0,
         Hub = 1,
         PreBattle = 2,
-        Battle = 3
+        Battle = 3,
+        Tutorial = 4,
     }
 }

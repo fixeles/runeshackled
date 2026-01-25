@@ -11,7 +11,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 97e026267a824bbaa7b640b9bf450f5d, type: 3}
   m_Name: SfxDescription
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: FPS::FPS.SFX.SfxDescription
   sfxSettings:
     list: []
     keyCollision: 0

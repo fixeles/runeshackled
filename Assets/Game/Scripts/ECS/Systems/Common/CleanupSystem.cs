@@ -1,22 +1,20 @@
-using CMS;
-using ECS;
+using Database;
 using ECS.FSM;
 using Leopotam.EcsLite;
-using UnityEngine;
 
-namespace Buildings
+namespace ECS.Systems.Common
 {
 	public class CleanupSystem : IEcsRunSystem
 	{
 		private readonly EcsWorld _world;
-		private readonly AssetProvider _assetProvider;
+		private readonly CMS _cms;
 		private EcsFilter _filter;
 		public AppState TargetState => AppState.Hub;
 
-		public CleanupSystem(EcsWorld world, AssetProvider assetProvider)
+		public CleanupSystem(EcsWorld world, CMS cms)
 		{
 			_world = world;
-			_assetProvider = assetProvider;
+			_cms = cms;
 			_filter = world.Filter<CleanRequest>().End();
 		}
 

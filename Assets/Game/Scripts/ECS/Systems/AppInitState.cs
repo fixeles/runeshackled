@@ -26,10 +26,10 @@ namespace ECS.Systems
 
 			
 			queue.Enqueue(_resolver.Resolve<LoadLocalDataCommand>());
-			queue.Enqueue(_resolver.Resolve<LoginCommand>());
 
 
 			queue.Enqueue(_resolver.Resolve<HideLoaderCommand>().WithParams(queue));
+			queue.Enqueue(_resolver.Resolve<StartGameLoopCommand>());
 			queue.Execute().Forget();
 		}
 	}
