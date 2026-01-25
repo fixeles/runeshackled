@@ -12,27 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5838a4fcb3814590be745d733cdd1ea0, type: 3}
   m_Name: CMS
   m_EditorClassIdentifier: Assembly-CSharp::Common.AssetProvider
-  Sprites:
+  <Sprites>k__BackingField:
     _container:
-      list:
-      - Key: melee
-        Value: {fileID: 21300000, guid: c5a853945a6504c82982db4846834ec1, type: 3}
-      - Key: range
-        Value: {fileID: 21300000, guid: bfa9342055be84620a135d4e80743a53, type: 3}
-      - Key: wood
-        Value: {fileID: 21300000, guid: 1f12d9e968f7946548af5731089e348f, type: 3}
-      - Key: stone
-        Value: {fileID: 21300000, guid: d8fabbdb8a9c24f1780a651e3d92b3b6, type: 3}
-      - Key: gem
-        Value: {fileID: 21300000, guid: ae90dcc4b153a4a9c966e52e565dac6b, type: 3}
-      - Key: rune
-        Value: {fileID: 21300000, guid: 4af0e41bb767a439d94a8ead0b6fa0e4, type: 3}
+      list: []
       keyCollision: 0
-  Prefabs:
-    _buildings:
-      list:
-      - Key: melee_spawner
-        Value: {fileID: 4288198876021243616, guid: 5f46b8114b6001d4d9de838cab4e1f98, type: 3}
-      - Key: range_spawner
-        Value: {fileID: 1195319192994259193, guid: 415bc7237229262438936799b9ea1a93, type: 3}
-      keyCollision: 0
+  <Prefabs>k__BackingField:
+    <PlayerCharacter>k__BackingField: {fileID: 8289618934297641964, guid: c0d715540f4d7544d986697031957f71, type: 3}
+  <LevelViews>k__BackingField:
+  - {fileID: 2675130357905533772, guid: d26835b104d35834ea77fb516bea719f, type: 3}

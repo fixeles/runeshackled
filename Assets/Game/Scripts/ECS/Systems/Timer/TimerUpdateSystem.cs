@@ -1,3 +1,4 @@
+using ECS.Components;
 using Leopotam.EcsLite;
 using UnityEngine;
 using VContainer;

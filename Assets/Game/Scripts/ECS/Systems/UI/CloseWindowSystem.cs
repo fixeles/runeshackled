@@ -1,3 +1,4 @@
+using ECS.Components;
 using FPS.UI;
 using Leopotam.EcsLite;
 using VContainer;

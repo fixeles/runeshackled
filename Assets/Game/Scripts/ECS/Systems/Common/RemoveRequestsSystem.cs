@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using ECS.Components;
 using Leopotam.EcsLite;
 using VContainer;
 

@@ -1,8 +1,7 @@
 ﻿using System;
-using FPS.UI;
 using UnityEngine;
 
-namespace ECS
+namespace ECS.Components
 {
 	public struct MonoReference<T> where T : MonoBehaviour
 	{
@@ -15,16 +14,6 @@ namespace ECS
 		public Action WindowCloseCallback;
 	}
 
-	public struct OpenWindowRequest<T> where T : IWindow { }
-
-	public struct CloseWindowRequest { }
-
-	public struct ClickRequest { }
-
-	public struct CreateRequest { }
-
-	public struct CleanRequest { }
-
 	public struct TimerComponent
 	{
 		public Action Callback;
@@ -32,5 +21,9 @@ namespace ECS
 		public float TimeLeft;
 
 		public bool Loop => LoopTime > 0;
+	}
+
+	public struct Movable
+	{
 	}
 }

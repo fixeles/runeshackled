@@ -1,4 +1,5 @@
 using Cysharp.Threading.Tasks;
+using ECS.Components;
 using FPS.UI;
 using Leopotam.EcsLite;
 

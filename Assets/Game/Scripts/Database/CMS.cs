@@ -1,3 +1,4 @@
+using ECS.Systems.Battle;
 using UnityEngine;
 
 namespace Database
@@ -7,5 +8,6 @@ namespace Database
 	{
 		[field: SerializeField] public Sprites Sprites { get; private set; }
 		[field: SerializeField] public Prefabs Prefabs { get; private set; }
+		[field: SerializeField] public LevelView[] LevelViews { get; private set; }
 	}
 }

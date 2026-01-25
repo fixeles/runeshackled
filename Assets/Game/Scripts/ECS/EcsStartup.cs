@@ -2,6 +2,7 @@ using System;
 using Common;
 using ECS.FSM;
 using ECS.Systems;
+using ECS.Systems.Battle;
 using ECS.Systems.Common;
 using ECS.Systems.Timer;
 using ECS.Systems.UI;
@@ -74,6 +75,8 @@ namespace ECS
 				#endregion
 
 				#region Battle
+				.Add(CreateSystem<BuildMapSystem>())
+				.Add(CreateSystem<SpawnPlayerSystem>())
 
 				#endregion
 

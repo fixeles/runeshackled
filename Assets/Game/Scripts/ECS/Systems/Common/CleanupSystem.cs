@@ -1,4 +1,5 @@
 using Database;
+using ECS.Components;
 using ECS.FSM;
 using Leopotam.EcsLite;
 
