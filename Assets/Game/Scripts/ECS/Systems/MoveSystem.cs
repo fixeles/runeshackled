@@ -26,7 +26,7 @@ namespace ECS.Systems
 			foreach (var entity in _filter)
 			{
 				var requestPosition = _world.GetPool<MoveRequest>().Get(entity).Position;
-				var agent = _world.GetPool<MonoReference<UnitView>>().Get(entity).View.Agent;
+				var agent = _world.GetPool<MonoReference<UnitView>>().Get(entity).Reference.Agent;
 				agent.SetDestination(requestPosition);
 			}
 		}

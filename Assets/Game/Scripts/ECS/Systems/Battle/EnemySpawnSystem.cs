@@ -37,8 +37,9 @@ namespace ECS.Systems.Battle
 			var enemyEntity=_world.NewEntity();
 			var id = _cms.GameConfig.EnemyConfig.ViewId;
 			var view = _pool.Get<UnitView>(id);
-			_world.GetPool<MonoReference<UnitView>>().Add(enemyEntity).View = view;
+			_world.GetPool<MonoReference<UnitView>>().Add(enemyEntity).Reference = view;
 			_world.GetPool<EnemyTag>().Add(enemyEntity);
+			_world.GetPool<MonoReference<HitableMono>>().Add(enemyEntity).Reference = view.GetComponentInChildren<HitableMono>();
 		}
 
 		public void Update() { }
