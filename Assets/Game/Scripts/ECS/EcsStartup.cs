@@ -1,9 +1,11 @@
 using System;
 using Common;
 using Database;
+using ECS.Components;
 using ECS.FSM;
 using ECS.Systems;
 using ECS.Systems.Battle;
+using ECS.Systems.Battle.Skills;
 using ECS.Systems.Common;
 using ECS.Systems.Timer;
 using ECS.Systems.UI;
@@ -93,6 +95,12 @@ namespace ECS
 
 				#endregion
 
+				#region Skills
+				
+				.Add(CreateSystem<RaycastAttackSystem>())
+
+				#endregion
+				
 				.Add(CreateSystem<TimerUpdateSystem>())
 				.Add(CreateSystem<SaveSystem>())
 				.Add(CreateSystem<RemoveRequestsSystem>())

@@ -17,4 +17,7 @@ namespace ECS.Components
 	{
 		public Vector3 Position;
 	}
+
+	public struct UseRequest { }
+	public struct InitRequest { }
 }

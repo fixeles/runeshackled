@@ -27,7 +27,7 @@ namespace ECS.Systems.Battle
 			var monoPool = _world.GetPool<MonoReference<LevelView>>();
 			ref var component = ref monoPool.Add(mapEntity);
 			var mapInstance = Object.Instantiate(_cms.LevelViews[0]);
-			component.View = mapInstance;
+			component.Reference = mapInstance;
 		}
 	}
 }

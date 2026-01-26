@@ -14,9 +14,11 @@ namespace ECS.Systems.Common
 		public RemoveRequestsSystem(EcsWorld world)
 		{
 			_world = world;
+			AddRequest<InitRequest>();
 			AddRequest<CreateRequest>();
 			AddRequest<MoveRequest>();
 			AddRequest<ClickRequest>();
+			AddRequest<UseRequest>();
 		}
 
 		private void AddRequest<T>() where T : struct

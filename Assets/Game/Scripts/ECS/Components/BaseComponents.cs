@@ -6,7 +6,7 @@ namespace ECS.Components
 {
 	public struct MonoReference<T> where T : MonoBehaviour
 	{
-		public T View;
+		public T Reference;
 	}
 
 	public struct WindowComponent
@@ -25,4 +25,9 @@ namespace ECS.Components
 	}
 
 	public struct Movable { }
+
+	public struct ChildComponent
+	{
+		public int OwnerEntity;
+	}
 }

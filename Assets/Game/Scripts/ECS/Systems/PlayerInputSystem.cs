@@ -7,9 +7,10 @@ using VContainer;
 
 namespace ECS.Systems
 {
-	public class PlayerInputSystem : IEcsRunSystem
+	public class PlayerInputSystem : IEcsRunSystem, IEcsInitSystem, IEcsDestroySystem
 	{
-		private EcsFilter _playerFilter;
+		private readonly EcsFilter _playerFilter;
+		private readonly EcsFilter _activeSkillFilter;
 		private readonly GameInputs _inputs;
 		private readonly EcsWorld _world;
 
@@ -19,9 +20,28 @@ namespace ECS.Systems
 			_inputs = inputs;
 			_world = world;
 			_playerFilter = world.Filter<PlayerTag>().End();
+			_activeSkillFilter = world.Filter<SelectedSkill>().End();
+		}
+
+		public void Init(IEcsSystems systems)
+		{
+			_inputs.Gameplay.Attack.performed += TryUseSkill;
 		}
 
 		public void Run(IEcsSystems systems)
+		{
+			TryMove();
+		}
+
+		private void TryUseSkill(InputAction.CallbackContext callbackContext)
+		{
+			foreach (var skillEntity in _activeSkillFilter)
+			{
+				_world.GetPool<UseRequest>().Add(skillEntity);
+			}
+		}
+
+		private void TryMove()
 		{
 			var inputAction = _inputs.Gameplay.Move;
 			if (inputAction.phase is not (InputActionPhase.Performed or InputActionPhase.Started))
@@ -35,11 +55,16 @@ namespace ECS.Systems
 		{
 			foreach (var entity in _playerFilter)
 			{
-				var unitView = _world.GetPool<MonoReference<UnitView>>().Get(entity).View;
+				var unitView = _world.GetPool<MonoReference<UnitView>>().Get(entity).Reference;
 				ref var request = ref _world.GetPool<MoveRequest>().Add(entity);
 				var moveDirection = new Vector3(input.x, 0, input.y).normalized;
 				request.Position = unitView.transform.position + moveDirection;
 			}
+		}
+
+		public void Destroy(IEcsSystems systems)
+		{
+			_inputs.Gameplay.Attack.performed -= TryUseSkill;
 		}
 	}
 }
