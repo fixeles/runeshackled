@@ -1,4 +1,5 @@
 ﻿using System;
+using ECS.Mono;
 using Enum;
 using UnityEngine;
 
@@ -29,5 +30,12 @@ namespace ECS.Components
 	public struct ChildComponent
 	{
 		public int OwnerEntity;
+	}
+
+	public struct LookDirection
+	{
+		public float RotationSpeed;
+		public Quaternion TargetLocalRotation;
+		public LookTracker Tracker;
 	}
 }

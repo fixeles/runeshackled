@@ -7,6 +7,7 @@ using ECS.Systems;
 using ECS.Systems.Battle;
 using ECS.Systems.Battle.Skills;
 using ECS.Systems.Common;
+using ECS.Systems.Look;
 using ECS.Systems.Timer;
 using ECS.Systems.UI;
 using FPS;
@@ -101,6 +102,8 @@ namespace ECS
 
 				#endregion
 				
+				.Add(CreateSystem<PlayerLookCalculationSystem>())
+				.Add(CreateSystem<LookRotationSystem>())
 				.Add(CreateSystem<TimerUpdateSystem>())
 				.Add(CreateSystem<SaveSystem>())
 				.Add(CreateSystem<RemoveRequestsSystem>())

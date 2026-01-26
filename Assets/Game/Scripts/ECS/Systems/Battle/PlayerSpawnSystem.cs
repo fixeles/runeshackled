@@ -28,15 +28,26 @@ namespace ECS.Systems.Battle
 
 		public void Enter()
 		{
+			var playerEntity = CreatePlayer();
+			AddAttackSkill(playerEntity);
+		}
+
+		private int CreatePlayer()
+		{
 			var playerEntity = _world.NewEntity();
 			_world.GetPool<PlayerTag>().Add(playerEntity);
 			var unitView = Object.Instantiate(_cms.Prefabs.PlayerCharacter);
 			_world.GetPool<MonoReference<UnitView>>().Add(playerEntity).Reference = unitView;
 			_world.GetPool<MonoReference<AttackableMono>>().Add(playerEntity).Reference = unitView.GetComponentInChildren<AttackableMono>();
+		
 			_mainCamera.Follow = unitView.transform;
-
-			ref var movable = ref _world.GetPool<Movable>().Add(playerEntity);
-			AddAttackSkill(playerEntity);
+			
+			ref var lookComponent = ref _world.GetPool<LookDirection>().Add(playerEntity);
+			lookComponent.Tracker = unitView.GetComponentInChildren<LookTracker>();
+			lookComponent.TargetLocalRotation = Quaternion.identity;
+			lookComponent.RotationSpeed = 5f;
+			
+			return playerEntity;
 		}
 
 		private void AddAttackSkill(int playerEntity)
