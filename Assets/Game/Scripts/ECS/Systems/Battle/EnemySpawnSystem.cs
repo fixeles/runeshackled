@@ -1,0 +1,53 @@
+﻿using Database;
+using ECS.Components;
+using ECS.FSM;
+using ECS.Mono;
+using FPS.Pool;
+using Leopotam.EcsLite;
+using VContainer;
+
+namespace ECS.Systems.Battle
+{
+	public class EnemySpawnSystem : IStateUpdate, IEcsSystem, IStateEnter, IStateExit
+	{
+		private readonly EcsWorld _world;
+		private readonly CMS _cms;
+		private readonly IObjectPool _pool;
+		public AppState TargetState => AppState.Battle;
+
+
+		[Inject]
+		public EnemySpawnSystem(EcsWorld world, CMS cms, IObjectPool pool)
+		{
+			_world = world;
+			_cms = cms;
+			_pool = pool;
+		}
+
+		public void Enter()
+		{
+			var spawnerEntity = _world.NewEntity();
+			ref var timerComponent = ref _world.GetPool<TimerComponent>().Add(spawnerEntity);
+			timerComponent.LoopTime = _cms.GameConfig.EnemySpawnFrequency;
+			timerComponent.Callback += SpawnEnemies;
+		}
+
+		private void SpawnEnemies()
+		{
+			var enemyEntity=_world.NewEntity();
+			var id = _cms.GameConfig.EnemyConfig.ViewId;
+			var view = _pool.Get<UnitView>(id);
+			_world.GetPool<MonoReference<UnitView>>().Add(enemyEntity).View = view;
+			_world.GetPool<EnemyTag>().Add(enemyEntity);
+		}
+
+		public void Update() { }
+
+		public void Exit()
+		{
+			var filter = _world.Filter<EnemySpawner>().End();
+			foreach (var entity in filter) 
+				_world.DelEntity(entity);
+		}
+	}
+}

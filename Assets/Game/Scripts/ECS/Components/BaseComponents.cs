@@ -1,4 +1,5 @@
 ﻿using System;
+using Enum;
 using UnityEngine;
 
 namespace ECS.Components
@@ -23,7 +24,5 @@ namespace ECS.Components
 		public bool Loop => LoopTime > 0;
 	}
 
-	public struct Movable
-	{
-	}
+	public struct Movable { }
 }

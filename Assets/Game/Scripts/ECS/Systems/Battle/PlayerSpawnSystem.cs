@@ -9,27 +9,27 @@ using VContainer;
 
 namespace ECS.Systems.Battle
 {
-	public class SpawnPlayerSystem : IStateEnter, IEcsSystem
+	public class PlayerSpawnSystem : IStateEnter, IEcsSystem
 	{
 		private readonly CMS _cms;
 		private readonly EcsWorld _world;
 		private readonly CinemachineCamera _mainCamera;
 
+		public AppState TargetState => AppState.Battle;
+		
+		
 		[Inject]
-		public SpawnPlayerSystem(CMS cms, EcsWorld world, CinemachineCamera mainCamera)
+		public PlayerSpawnSystem(CMS cms, EcsWorld world, CinemachineCamera mainCamera)
 		{
 			_cms = cms;
 			_world = world;
 			_mainCamera = mainCamera;
 		}
 
-		public AppState TargetState => AppState.Battle;
-
-
 		public void Enter()
 		{
 			var playerEntity = _world.NewEntity();
-			_world.GetPool<Player>().Add(playerEntity);
+			_world.GetPool<PlayerTag>().Add(playerEntity);
 			var unitView = Object.Instantiate(_cms.Prefabs.PlayerCharacter);
 			_world.GetPool<MonoReference<UnitView>>().Add(playerEntity).View = unitView;
 			_mainCamera.Follow = unitView.transform;

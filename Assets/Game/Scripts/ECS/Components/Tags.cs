@@ -1,4 +1,6 @@
 ﻿namespace ECS.Components
 {
-	public struct Player { }
+	public struct PlayerTag { }
+	public struct EnemyTag { }
+	public struct EnemySpawner { }
 }

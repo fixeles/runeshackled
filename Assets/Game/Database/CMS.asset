@@ -20,3 +20,4 @@ MonoBehaviour:
     <PlayerCharacter>k__BackingField: {fileID: 8289618934297641964, guid: c0d715540f4d7544d986697031957f71, type: 3}
   <LevelViews>k__BackingField:
   - {fileID: 2675130357905533772, guid: d26835b104d35834ea77fb516bea719f, type: 3}
+  <GameConfig>k__BackingField: {fileID: 11400000, guid: da18707991547284bb412e22620f3aa4, type: 2}

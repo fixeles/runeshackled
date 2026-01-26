@@ -12,5 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f32cd27b1255ca4e890708326876bea, type: 3}
   m_Name: PoolDescription
   m_EditorClassIdentifier: FPS.Pool::FPS.Pool.PoolDescription
-  poolables: []
+  poolables:
+  - <Prefab>k__BackingField: {fileID: 736130393353601283, guid: e2afde5727309594c8e100610bcf4744, type: 3}
+    <Count>k__BackingField: 5
+    <Key>k__BackingField: base_enemy
+    <PrewarmType>k__BackingField: 0
   renamePoolables: 0

@@ -86,9 +86,10 @@ namespace ECS
 				#region Battle
 
 				.Add(CreateSystem<BuildMapSystem>())
-				.Add(CreateSystem<SpawnPlayerSystem>())
+				.Add(CreateSystem<PlayerSpawnSystem>())
 				.Add(CreateSystem<PlayerInputSystem>())
 				.Add(CreateSystem<MoveSystem>())
+				.Add(CreateSystem<EnemySpawnSystem>())
 
 				#endregion
 

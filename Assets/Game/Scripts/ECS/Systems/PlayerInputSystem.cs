@@ -18,13 +18,12 @@ namespace ECS.Systems
 		{
 			_inputs = inputs;
 			_world = world;
-			_playerFilter = world.Filter<Player>().End();
+			_playerFilter = world.Filter<PlayerTag>().End();
 		}
 
 		public void Run(IEcsSystems systems)
 		{
 			var inputAction = _inputs.Gameplay.Move;
-			Debug.LogError(inputAction.phase);
 			if (inputAction.phase is not (InputActionPhase.Performed or InputActionPhase.Started))
 				return;
 
