@@ -15,11 +15,10 @@ namespace ECS.Systems.Common
 		{
 			_world = world;
 			AddRequest<InitRequest>();
-			AddRequest<CreateRequest>();
 			AddRequest<MoveRequest>();
-			AddRequest<ClickRequest>();
 			AddRequest<UseRequest>();
 			AddRequest<DamageRequest>();
+			AddRequest<DeathRequest>();
 		}
 
 		private void AddRequest<T>() where T : struct

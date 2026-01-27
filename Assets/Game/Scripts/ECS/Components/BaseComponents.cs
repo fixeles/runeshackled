@@ -2,6 +2,7 @@
 using ECS.Mono;
 using Enum;
 using JetBrains.Collections.Viewable;
+using JetBrains.Lifetimes;
 using UnityEngine;
 
 namespace ECS.Components
@@ -37,6 +38,15 @@ namespace ECS.Components
 	public struct ChildComponent
 	{
 		public int OwnerEntity;
+	}
+
+	public struct LifetimeComponent
+	{
+		public Lifetime Lifetime => _definition.Lifetime;
+		private LifetimeDefinition _definition;
+
+		public void Terminate() => _definition.Terminate();
+		public void CreateNested(Lifetime parentLifetime) => _definition = parentLifetime.CreateNested();
 	}
 
 	public struct LookDirection

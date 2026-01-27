@@ -43,7 +43,6 @@ namespace ECS
 				builder.RegisterInstance(_cms);
 				builder.RegisterInstance(inputs);
 				builder.Register<RuntimeData>(Lifetime.Singleton);
-				builder.Register<TimerService>(Lifetime.Singleton);
 				builder.Register<GameProgress>(Lifetime.Singleton);
 				builder.Register<AppStateMachine>(Lifetime.Singleton).As<IAppStateMachine>();
 				builder.RegisterInstance<EcsWorld>(new());

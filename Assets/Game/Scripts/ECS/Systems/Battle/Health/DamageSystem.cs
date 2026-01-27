@@ -1,6 +1,5 @@
 ﻿using ECS.Components;
 using Leopotam.EcsLite;
-using UnityEngine;
 using VContainer;
 
 namespace ECS.Systems.Battle.Health
@@ -24,7 +23,8 @@ namespace ECS.Systems.Battle.Health
 				ref var request = ref _world.GetPool<DamageRequest>().Get(entity);
 				ref var targetHealth = ref _world.GetPool<HealthComponent>().Get(request.TargetEntity);
 				targetHealth.CurrentHealth.Value -= request.DamageValue;
-				Debug.LogError(targetHealth.CurrentHealth.Value);
+				if (targetHealth.CurrentHealth.Value <= 0)
+					_world.GetPool<DeathRequest>().Add(request.TargetEntity);
 			}
 		}
 	}

@@ -8,12 +8,6 @@ namespace ECS.Components
 
 	public struct CloseWindowRequest { }
 
-	public struct ClickRequest { }
-
-	public struct CreateRequest { }
-
-	public struct CleanRequest { }
-
 	public struct MoveRequest
 	{
 		public Vector3 Position;
@@ -21,6 +15,7 @@ namespace ECS.Components
 
 	public struct UseRequest { }
 	public struct InitRequest { }
+	public struct DeathRequest { }
 
 	public struct DamageRequest
 	{
