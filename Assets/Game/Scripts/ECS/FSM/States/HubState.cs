@@ -1,6 +1,7 @@
 using Leopotam.EcsLite;
 using UI;
 using VContainer;
+using Lifetime = JetBrains.Lifetimes.Lifetime;
 
 namespace ECS.FSM
 {
@@ -16,7 +17,7 @@ namespace ECS.FSM
 
 		public AppState TargetState => AppState.Hub;
 
-		public void Enter()
+		public void Enter(Lifetime lifetime)
 		{
 			UIHelper.ShowWindow<UIHubWindow>(_world);
 		}

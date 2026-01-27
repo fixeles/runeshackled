@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using JetBrains.Lifetimes;
 using Leopotam.EcsLite;
 
 namespace ECS.FSM
@@ -13,7 +14,12 @@ namespace ECS.FSM
 	{
 		private AppState _currentState;
 		private readonly Dictionary<AppState, StateHandlers> _states = new();
+		private readonly SequentialLifetimes _sequentialLifetimes;
 
+		public AppStateMachine(Lifetime appLifetime)
+		{
+			_sequentialLifetimes = new SequentialLifetimes(appLifetime);
+		}
 
 		public void Init(IEcsSystems systems)
 		{
@@ -33,7 +39,7 @@ namespace ECS.FSM
 			}
 
 			_currentState = AppState.Init;
-			_states[_currentState].Enter();
+			_states[_currentState].Enter(_sequentialLifetimes.Next());
 		}
 
 		public void Run(IEcsSystems systems)
@@ -45,7 +51,7 @@ namespace ECS.FSM
 		{
 			_states[_currentState].Exit();
 			_currentState = targetState;
-			_states[_currentState].Enter();
+			_states[_currentState].Enter(_sequentialLifetimes.Next());
 		}
 
 		private class HandlersBuilder
@@ -98,10 +104,10 @@ namespace ECS.FSM
 					handle.Update();
 			}
 
-			public void Enter()
+			public void Enter(Lifetime lifetime)
 			{
 				foreach (var handle in _enterHandlers)
-					handle.Enter();
+					handle.Enter(lifetime);
 			}
 
 			public void Exit()

@@ -7,6 +7,7 @@ using Leopotam.EcsLite;
 using Unity.Cinemachine;
 using UnityEngine;
 using VContainer;
+using Lifetime = JetBrains.Lifetimes.Lifetime;
 
 namespace ECS.Systems.Battle
 {
@@ -30,15 +31,15 @@ namespace ECS.Systems.Battle
 			_pool = pool;
 		}
 
-		public void Enter()
+		public void Enter(Lifetime lifetime)
 		{
-			var playerEntity = CreatePlayer();
+			var playerEntity = CreatePlayer(lifetime);
 			AddAttackSkill(playerEntity);
 		}
 
-		private int CreatePlayer()
+		private int CreatePlayer(Lifetime lifetime)
 		{
-			var playerEntity = _world.NewEntity();
+			var playerEntity = _world.CreateLifetimedEntity(lifetime);
 			_world.GetPool<PlayerTag>().Add(playerEntity);
 			var navigationFollower = Object.Instantiate(_cms.Prefabs.PlayerCharacter);
 			_world.GetPool<MonoReference<NavigationFollower>>().Add(playerEntity).Reference = navigationFollower;
@@ -57,7 +58,9 @@ namespace ECS.Systems.Battle
 
 		private void AddAttackSkill(int playerEntity)
 		{
-			var skillEntity = _world.NewEntity();
+			var playerLifetime = _world.GetPool<LifetimeComponent>().Get(playerEntity).Lifetime;
+			var skillEntity = _world.CreateLifetimedEntity(playerLifetime);
+			
 			_world.GetPool<ChildComponent>().Add(skillEntity).OwnerEntity = playerEntity;
 			_world.GetPool<MeleeAttack>().Add(skillEntity);
 			_world.GetPool<Damage>().Add(skillEntity).Value = 50;

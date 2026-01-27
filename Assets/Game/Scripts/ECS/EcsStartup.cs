@@ -38,14 +38,15 @@ namespace ECS
 			inputs.Enable();
 			_scope.CreateChild(builder =>
 			{
-				builder.RegisterInstance(_appDefinition.Lifetime);
 				builder.RegisterInstance(_mainCamera);
 				builder.RegisterInstance(_cms);
 				builder.RegisterInstance(inputs);
 				builder.Register<RuntimeData>(Lifetime.Singleton);
 				builder.Register<GameProgress>(Lifetime.Singleton);
-				builder.Register<AppStateMachine>(Lifetime.Singleton).As<IAppStateMachine>();
 				builder.RegisterInstance<EcsWorld>(new());
+				
+				var stateMachine = new AppStateMachine(_appDefinition.Lifetime);
+				builder.RegisterInstance(stateMachine).As<IAppStateMachine>();
 				builder.RegisterBuildCallback(InitSystems);
 			});
 		}

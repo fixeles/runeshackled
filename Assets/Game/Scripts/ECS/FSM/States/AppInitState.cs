@@ -3,6 +3,7 @@ using ECS.FSM;
 using FPS;
 using Leopotam.EcsLite;
 using VContainer;
+using Lifetime = JetBrains.Lifetimes.Lifetime;
 
 namespace ECS.Systems
 {
@@ -19,7 +20,7 @@ namespace ECS.Systems
 			_resolver = resolver;
 		}
 
-		public void Enter()
+		public void Enter(Lifetime lifetime)
 		{
 			var queue = _resolver.Resolve<CommandQueue>();
 			_resolver.Resolve<BaseInitializationCommands>().Insert(queue);

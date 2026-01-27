@@ -3,6 +3,7 @@ using Leopotam.EcsLite;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using VContainer;
+using Lifetime = JetBrains.Lifetimes.Lifetime;
 
 namespace ECS.FSM
 {
@@ -19,7 +20,7 @@ namespace ECS.FSM
 			_world = world;
 		}
 
-		public void Enter()
+		public void Enter(Lifetime lifetime)
 		{
 			SpawnHubAsync().Forget();
 		}

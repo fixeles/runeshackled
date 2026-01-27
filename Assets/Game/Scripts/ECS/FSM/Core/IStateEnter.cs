@@ -1,7 +1,9 @@
+using JetBrains.Lifetimes;
+
 namespace ECS.FSM
 {
 	public interface IStateEnter : IStateHandler
 	{
-		void Enter();
+		void Enter(Lifetime lifetime);
 	}
 }

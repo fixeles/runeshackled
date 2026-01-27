@@ -4,6 +4,7 @@ using ECS.FSM;
 using Leopotam.EcsLite;
 using UnityEngine;
 using VContainer;
+using Lifetime = JetBrains.Lifetimes.Lifetime;
 
 namespace ECS.Systems.Battle
 {
@@ -21,13 +22,15 @@ namespace ECS.Systems.Battle
 
 		public AppState TargetState => AppState.Battle;
 
-		public void Enter()
+		public void Enter(Lifetime lifetime)
 		{
-			var mapEntity = _world.NewEntity();
+			var mapEntity = _world.CreateLifetimedEntity(lifetime);
 			var monoPool = _world.GetPool<MonoReference<LevelView>>();
 			ref var component = ref monoPool.Add(mapEntity);
 			var mapInstance = Object.Instantiate(_cms.LevelViews[0]);
 			component.Reference = mapInstance;
+
+			lifetime.OnTermination(() => Object.Destroy(mapInstance));
 		}
 	}
 }
