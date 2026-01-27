@@ -98,10 +98,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8738957136482170163}
-  - component: {fileID: 8289618934297641964}
-  - component: {fileID: 5556109741975060682}
+  - component: {fileID: 8803721501008756199}
+  - component: {fileID: 8052055922147089610}
   m_Layer: 6
-  m_Name: Player
+  m_Name: PlayerView
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -123,7 +123,7 @@ Transform:
   - {fileID: 1013442963436572818}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8289618934297641964
+--- !u!114 &8803721501008756199
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -132,32 +132,24 @@ MonoBehaviour:
   m_GameObject: {fileID: 6316668426720692967}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cd5299859fe14471b20189d2610a50d5, type: 3}
+  m_Script: {fileID: 11500000, guid: f94e308db7874573b1230ff465f77895, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ECS.Mono.UnitView
-  <Agent>k__BackingField: {fileID: 5556109741975060682}
---- !u!195 &5556109741975060682
-NavMeshAgent:
+  m_EditorClassIdentifier: Assembly-CSharp::ECS.Mono.AttackableMono
+  <AttackPoint>k__BackingField: {fileID: 831057204266057805}
+  <Root>k__BackingField: {fileID: 8738957136482170163}
+--- !u!114 &8052055922147089610
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6316668426720692967}
   m_Enabled: 1
-  m_AgentTypeID: 0
-  m_Radius: 0.5
-  m_Speed: 3.5
-  m_Acceleration: 30
-  avoidancePriority: 50
-  m_AngularSpeed: 720
-  m_StoppingDistance: 0.2
-  m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 1
-  m_AutoRepath: 1
-  m_Height: 2.5
-  m_BaseOffset: 0
-  m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7810d83fdf94e34af3fcd610ed2f73c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ECS.Mono.NavigationFollower
+  <CachedTransform>k__BackingField: {fileID: 8738957136482170163}
 --- !u!1 &6383382120890697687
 GameObject:
   m_ObjectHideFlags: 0
@@ -169,7 +161,6 @@ GameObject:
   - component: {fileID: 1013442963436572818}
   - component: {fileID: 3465215576932193928}
   - component: {fileID: 139212852917272354}
-  - component: {fileID: 5003614698036380644}
   - component: {fileID: 4273347571717152258}
   m_Layer: 6
   m_Name: Capsule
@@ -250,19 +241,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &5003614698036380644
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6383382120890697687}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f94e308db7874573b1230ff465f77895, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ECS.Mono.AttackableMono
-  <AttackPoint>k__BackingField: {fileID: 1013442963436572818}
 --- !u!114 &4273347571717152258
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -34,12 +34,14 @@ namespace ECS.Systems.Battle
 
 		private void SpawnEnemies()
 		{
-			var enemyEntity=_world.NewEntity();
+			var enemyEntity = _world.NewEntity();
 			var id = _cms.GameConfig.EnemyConfig.ViewId;
-			var view = _pool.Get<UnitView>(id);
-			_world.GetPool<MonoReference<UnitView>>().Add(enemyEntity).Reference = view;
+			_world.GetPool<MonoReference<NavigationAgent>>().Add(enemyEntity).Reference = _pool.Get<NavigationAgent>();
+			
+			var follower = _pool.Get<NavigationFollower>(id);
+			_world.GetPool<MonoReference<NavigationFollower>>().Add(enemyEntity).Reference = follower;
 			_world.GetPool<EnemyTag>().Add(enemyEntity);
-			_world.GetPool<MonoReference<HitableMono>>().Add(enemyEntity).Reference = view.GetComponentInChildren<HitableMono>();
+			_world.GetPool<MonoReference<HitableMono>>().Add(enemyEntity).Reference = follower.GetComponentInChildren<HitableMono>();
 		}
 
 		public void Update() { }
@@ -47,7 +49,7 @@ namespace ECS.Systems.Battle
 		public void Exit()
 		{
 			var filter = _world.Filter<EnemySpawner>().End();
-			foreach (var entity in filter) 
+			foreach (var entity in filter)
 				_world.DelEntity(entity);
 		}
 	}

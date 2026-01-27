@@ -1,13 +1,13 @@
 using System;
 using Common;
 using Database;
-using ECS.Components;
 using ECS.FSM;
 using ECS.Systems;
 using ECS.Systems.Battle;
 using ECS.Systems.Battle.Skills;
 using ECS.Systems.Common;
 using ECS.Systems.Look;
+using ECS.Systems.Move;
 using ECS.Systems.Timer;
 using ECS.Systems.UI;
 using FPS;
@@ -26,7 +26,7 @@ namespace ECS
 		[SerializeField, Get] private LifetimeScope _scope;
 		[SerializeField] private CMS _cms;
 		[SerializeField] private CinemachineCamera _mainCamera;
-		
+
 
 		private readonly LifetimeDefinition _appDefinition = new();
 		private EcsSystems _systems;
@@ -66,6 +66,8 @@ namespace ECS
 
 				#endregion
 
+				.Add(CreateSystem<LinkPositionSystem>())
+
 				#region States
 
 				.Add(CreateSystem<AppInitState>())
@@ -97,11 +99,11 @@ namespace ECS
 				#endregion
 
 				#region Skills
-				
+
 				.Add(CreateSystem<RaycastAttackSystem>())
 
 				#endregion
-				
+
 				.Add(CreateSystem<PlayerLookCalculationSystem>())
 				.Add(CreateSystem<LookRotationSystem>())
 				.Add(CreateSystem<TimerUpdateSystem>())

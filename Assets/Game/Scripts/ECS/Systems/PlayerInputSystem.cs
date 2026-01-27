@@ -55,7 +55,7 @@ namespace ECS.Systems
 		{
 			foreach (var entity in _playerFilter)
 			{
-				var unitView = _world.GetPool<MonoReference<UnitView>>().Get(entity).Reference;
+				var unitView = _world.GetPool<MonoReference<NavigationAgent>>().Get(entity).Reference;
 				ref var request = ref _world.GetPool<MoveRequest>().Add(entity);
 				var moveDirection = new Vector3(input.x, 0, input.y).normalized;
 				request.Position = unitView.transform.position + moveDirection;

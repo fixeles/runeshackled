@@ -2,6 +2,7 @@
 using ECS.Components;
 using ECS.FSM;
 using ECS.Mono;
+using FPS.Pool;
 using Leopotam.EcsLite;
 using Unity.Cinemachine;
 using UnityEngine;
@@ -14,16 +15,19 @@ namespace ECS.Systems.Battle
 		private readonly CMS _cms;
 		private readonly EcsWorld _world;
 		private readonly CinemachineCamera _mainCamera;
+		private readonly IObjectPool _pool;
 
 		public AppState TargetState => AppState.Battle;
 
 
 		[Inject]
-		public PlayerSpawnSystem(CMS cms, EcsWorld world, CinemachineCamera mainCamera)
+		public PlayerSpawnSystem(CMS cms, EcsWorld world,
+			CinemachineCamera mainCamera, IObjectPool pool)
 		{
 			_cms = cms;
 			_world = world;
 			_mainCamera = mainCamera;
+			_pool = pool;
 		}
 
 		public void Enter()
@@ -36,17 +40,18 @@ namespace ECS.Systems.Battle
 		{
 			var playerEntity = _world.NewEntity();
 			_world.GetPool<PlayerTag>().Add(playerEntity);
-			var unitView = Object.Instantiate(_cms.Prefabs.PlayerCharacter);
-			_world.GetPool<MonoReference<UnitView>>().Add(playerEntity).Reference = unitView;
-			_world.GetPool<MonoReference<AttackableMono>>().Add(playerEntity).Reference = unitView.GetComponentInChildren<AttackableMono>();
-		
-			_mainCamera.Follow = unitView.transform;
-			
+			var navigationFollower = Object.Instantiate(_cms.Prefabs.PlayerCharacter);
+			_world.GetPool<MonoReference<NavigationFollower>>().Add(playerEntity).Reference = navigationFollower;
+			_world.GetPool<MonoReference<NavigationAgent>>().Add(playerEntity).Reference = _pool.Get<NavigationAgent>();
+			_world.GetPool<MonoReference<AttackableMono>>().Add(playerEntity).Reference = navigationFollower.GetComponent<AttackableMono>();
+
+			_mainCamera.Follow = navigationFollower.transform;
+
 			ref var lookComponent = ref _world.GetPool<LookDirection>().Add(playerEntity);
-			lookComponent.Tracker = unitView.GetComponentInChildren<LookTracker>();
+			lookComponent.Tracker = navigationFollower.GetComponentInChildren<LookTracker>();
 			lookComponent.TargetLocalRotation = Quaternion.identity;
 			lookComponent.RotationSpeed = 5f;
-			
+
 			return playerEntity;
 		}
 

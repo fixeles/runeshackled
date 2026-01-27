@@ -14,7 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: FPS.Pool::FPS.Pool.PoolDescription
   poolables:
   - <Prefab>k__BackingField: {fileID: 736130393353601283, guid: e2afde5727309594c8e100610bcf4744, type: 3}
-    <Count>k__BackingField: 5
+    <Count>k__BackingField: 20
     <Key>k__BackingField: base_enemy
+    <PrewarmType>k__BackingField: 0
+  - <Prefab>k__BackingField: {fileID: 736130393353601283, guid: d8176913d85e3cf47a3b8fc9a4a573c3, type: 3}
+    <Count>k__BackingField: 20
+    <Key>k__BackingField: 
     <PrewarmType>k__BackingField: 0
   renamePoolables: 0

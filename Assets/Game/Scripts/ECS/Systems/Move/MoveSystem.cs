@@ -18,7 +18,7 @@ namespace ECS.Systems
 
 		public void Init(IEcsSystems systems)
 		{
-			_filter = _world.Filter<MoveRequest>().Inc<MonoReference<UnitView>>().End();
+			_filter = _world.Filter<MoveRequest>().Inc<MonoReference<NavigationAgent>>().End();
 		}
 
 		public void Run(IEcsSystems systems)
@@ -26,7 +26,7 @@ namespace ECS.Systems
 			foreach (var entity in _filter)
 			{
 				var requestPosition = _world.GetPool<MoveRequest>().Get(entity).Position;
-				var agent = _world.GetPool<MonoReference<UnitView>>().Get(entity).Reference.Agent;
+				var agent = _world.GetPool<MonoReference<NavigationAgent>>().Get(entity).Reference.Agent;
 				agent.SetDestination(requestPosition);
 			}
 		}

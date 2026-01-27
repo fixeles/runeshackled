@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Database.Enemies;
+using UnityEngine;
 
 namespace Database
 {
@@ -6,6 +7,6 @@ namespace Database
 	{
 		[field: SerializeField] public float EnemySpawnFrequency { get; private set; } = 1;
 		[field: SerializeField] public EnemyConfig EnemyConfig { get; private set; }
-		
+		[field: SerializeField] public NavigationConfig PlayerNavigation { get; private set; }
 	}
 }

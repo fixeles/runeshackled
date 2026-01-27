@@ -7,6 +7,6 @@ namespace Database
 	[Serializable]
 	public struct Prefabs
 	{
-		[field: SerializeField] public UnitView PlayerCharacter { get; private set; }
+		[field: SerializeField] public NavigationFollower PlayerCharacter { get; private set; }
 	}
 }
