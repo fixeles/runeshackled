@@ -1,6 +1,7 @@
 ﻿using System;
 using ECS.Mono;
 using Enum;
+using JetBrains.Collections.Viewable;
 using UnityEngine;
 
 namespace ECS.Components
@@ -26,6 +27,12 @@ namespace ECS.Components
 	}
 
 	public struct Movable { }
+
+	public struct HealthComponent
+	{
+		public IViewableProperty<float> MaxHealth;
+		public IViewableProperty<float> CurrentHealth;
+	}
 
 	public struct ChildComponent
 	{

@@ -19,6 +19,7 @@ namespace ECS.Systems.Common
 			AddRequest<MoveRequest>();
 			AddRequest<ClickRequest>();
 			AddRequest<UseRequest>();
+			AddRequest<DamageRequest>();
 		}
 
 		private void AddRequest<T>() where T : struct

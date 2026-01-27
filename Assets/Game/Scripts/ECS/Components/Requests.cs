@@ -1,4 +1,5 @@
-﻿using FPS.UI;
+﻿using Enum;
+using FPS.UI;
 using UnityEngine;
 
 namespace ECS.Components
@@ -20,4 +21,12 @@ namespace ECS.Components
 
 	public struct UseRequest { }
 	public struct InitRequest { }
+
+	public struct DamageRequest
+	{
+		public int SourceEntity;
+		public int TargetEntity;
+		public float DamageValue;
+		public DamageType DamageType;
+	}
 }

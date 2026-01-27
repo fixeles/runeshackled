@@ -3,6 +3,7 @@ using ECS.Components;
 using ECS.FSM;
 using ECS.Mono;
 using FPS.Pool;
+using JetBrains.Collections.Viewable;
 using Leopotam.EcsLite;
 using VContainer;
 
@@ -35,13 +36,31 @@ namespace ECS.Systems.Battle
 		private void SpawnEnemies()
 		{
 			var enemyEntity = _world.NewEntity();
+			_world.GetPool<EnemyTag>().Add(enemyEntity);
+
 			var id = _cms.GameConfig.EnemyConfig.ViewId;
 			_world.GetPool<MonoReference<NavigationAgent>>().Add(enemyEntity).Reference = _pool.Get<NavigationAgent>();
-			
+
 			var follower = _pool.Get<NavigationFollower>(id);
 			_world.GetPool<MonoReference<NavigationFollower>>().Add(enemyEntity).Reference = follower;
-			_world.GetPool<EnemyTag>().Add(enemyEntity);
-			_world.GetPool<MonoReference<HitableMono>>().Add(enemyEntity).Reference = follower.GetComponentInChildren<HitableMono>();
+
+			AddHitable(enemyEntity, follower);
+			AddHealth(enemyEntity);
+		}
+
+		private void AddHealth(int enemyEntity)
+		{
+			ref var health = ref _world.GetPool<HealthComponent>().Add(enemyEntity);
+			health.MaxHealth = new ViewableProperty<float>(100);
+			health.CurrentHealth = new ViewableProperty<float>(100);
+		}
+
+		private void AddHitable(int enemyEntity, NavigationFollower follower)
+		{
+			var hitable = _world.GetPool<MonoReference<HitableMono>>().Add(enemyEntity).Reference =
+				follower.GetComponentInChildren<HitableMono>();
+			hitable.Entity = enemyEntity;
+			hitable.SetActive(true);
 		}
 
 		public void Update() { }

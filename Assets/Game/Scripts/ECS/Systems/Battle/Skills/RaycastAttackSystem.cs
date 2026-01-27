@@ -39,8 +39,13 @@ namespace ECS.Systems.Battle.Skills
 
 				if (!raycast[0].collider.TryGetComponent<HitableMono>(out var hitableMono))
 					continue;
-				
+
 				//todo: add hit request
+				var requestEntity = _world.NewEntity();
+				ref var request = ref _world.GetPool<DamageRequest>().Add(requestEntity);
+				request.TargetEntity = hitableMono.Entity;
+				ref var damage = ref _world.GetPool<Damage>().Get(skillEntity);
+				request.DamageValue = damage.Value;
 			}
 		}
 	}

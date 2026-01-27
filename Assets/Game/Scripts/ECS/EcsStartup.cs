@@ -4,6 +4,7 @@ using Database;
 using ECS.FSM;
 using ECS.Systems;
 using ECS.Systems.Battle;
+using ECS.Systems.Battle.Health;
 using ECS.Systems.Battle.Skills;
 using ECS.Systems.Common;
 using ECS.Systems.Look;
@@ -95,6 +96,7 @@ namespace ECS
 				.Add(CreateSystem<PlayerInputSystem>())
 				.Add(CreateSystem<MoveSystem>())
 				.Add(CreateSystem<EnemySpawnSystem>())
+				.Add(CreateSystem<DamageSystem>())
 
 				#endregion
 

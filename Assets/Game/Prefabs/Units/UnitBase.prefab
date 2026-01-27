@@ -71,8 +71,8 @@ GameObject:
   - component: {fileID: 1013442963436572818}
   - component: {fileID: 3465215576932193928}
   - component: {fileID: 139212852917272354}
-  - component: {fileID: 820105500637662601}
   - component: {fileID: 5087844060565241594}
+  - component: {fileID: 7779414916377521276}
   m_Layer: 7
   m_Name: Capsule
   m_TagString: Untagged
@@ -152,19 +152,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &820105500637662601
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6383382120890697687}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b3bf5622f5874a269c61ab7264e64d8e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ECS.Mono.HitableMono
-  <AimPoint>k__BackingField: {fileID: 1013442963436572818}
 --- !u!136 &5087844060565241594
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -188,6 +175,20 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &7779414916377521276
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6383382120890697687}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3bf5622f5874a269c61ab7264e64d8e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ECS.Mono.HitableMono
+  <AimPoint>k__BackingField: {fileID: 1013442963436572818}
+  _collider: {fileID: 5087844060565241594}
 --- !u!1 &7063279698701112285
 GameObject:
   m_ObjectHideFlags: 0
