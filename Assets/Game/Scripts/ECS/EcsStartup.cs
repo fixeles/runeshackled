@@ -97,6 +97,7 @@ namespace ECS
 				.Add(CreateSystem<MoveSystem>())
 				.Add(CreateSystem<EnemySpawnSystem>())
 				.Add(CreateSystem<DamageSystem>())
+				.Add(CreateSystem<DeathSystem>())
 
 				#endregion
 

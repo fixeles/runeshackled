@@ -1,5 +1,6 @@
 ﻿using Database;
 using ECS.Components;
+using ECS.Extensions;
 using ECS.FSM;
 using Leopotam.EcsLite;
 using UnityEngine;

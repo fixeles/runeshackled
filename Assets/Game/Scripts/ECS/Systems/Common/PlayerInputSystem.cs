@@ -1,4 +1,5 @@
 ﻿using ECS.Components;
+using ECS.Extensions;
 using ECS.Mono;
 using Leopotam.EcsLite;
 using UnityEngine;
@@ -56,7 +57,8 @@ namespace ECS.Systems
 			foreach (var entity in _playerFilter)
 			{
 				var unitView = _world.GetPool<MonoReference<NavigationAgent>>().Get(entity).Reference;
-				ref var request = ref _world.GetPool<MoveRequest>().Add(entity);
+				var requestPool = _world.GetPool<MoveRequest>();
+				ref var request = ref requestPool.GetOrAdd(entity);
 				var moveDirection = new Vector3(input.x, 0, input.y).normalized;
 				request.Position = unitView.transform.position + moveDirection;
 			}
