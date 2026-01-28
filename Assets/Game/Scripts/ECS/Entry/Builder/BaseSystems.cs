@@ -1,0 +1,23 @@
+﻿using ECS.Systems;
+using ECS.Systems.Look;
+using ECS.Systems.Move;
+using Leopotam.EcsLite;
+using VContainer;
+
+namespace ECS.Entry.Builder
+{
+	public class BaseSystems : SystemsBuilder
+	{
+		public BaseSystems(IObjectResolver resolver) : base(resolver) { }
+
+		public override void Build(IEcsSystems systems)
+		{
+			systems
+				.Add(CreateSystem<PlayerInputSystem>())
+				.Add(CreateSystem<MoveSystem>())
+				.Add(CreateSystem<LinkPositionSystem>())
+				.Add(CreateSystem<PlayerLookCalculationSystem>())
+				.Add(CreateSystem<LookRotationSystem>());
+		}
+	}
+}

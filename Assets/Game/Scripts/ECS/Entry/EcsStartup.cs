@@ -1,16 +1,7 @@
-using System;
 using Common;
 using Database;
+using ECS.Entry.Builder;
 using ECS.FSM;
-using ECS.Systems;
-using ECS.Systems.Battle;
-using ECS.Systems.Battle.Health;
-using ECS.Systems.Battle.Skills;
-using ECS.Systems.Common;
-using ECS.Systems.Look;
-using ECS.Systems.Move;
-using ECS.Systems.Timer;
-using ECS.Systems.UI;
 using FPS;
 using JetBrains.Lifetimes;
 using Leopotam.EcsLite;
@@ -44,7 +35,7 @@ namespace ECS
 				builder.Register<RuntimeData>(Lifetime.Singleton);
 				builder.Register<GameProgress>(Lifetime.Singleton);
 				builder.RegisterInstance<EcsWorld>(new());
-				
+
 				var stateMachine = new AppStateMachine(_appDefinition.Lifetime);
 				builder.RegisterInstance(stateMachine).As<IAppStateMachine>();
 				builder.RegisterBuildCallback(InitSystems);
@@ -56,72 +47,23 @@ namespace ECS
 			var world = resolver.Resolve<EcsWorld>();
 
 			_systems = new EcsSystems(world);
-			_systems
-
-				#region Debug
-
 #if UNITY_EDITOR
+			_systems
 				.Add(new Leopotam.EcsLite.UnityEditor.EcsWorldDebugSystem())
-				.Add(new Leopotam.EcsLite.UnityEditor.EcsSystemsDebugSystem())
+				.Add(new Leopotam.EcsLite.UnityEditor.EcsSystemsDebugSystem());
 #endif
 
-				#endregion
-
-				.Add(CreateSystem<LinkPositionSystem>())
-
-				#region States
-
-				.Add(CreateSystem<AppInitState>())
-				.Add(CreateSystem<HubState>())
-				.Add(CreateSystem<HubBuilder>())
-				.Add(CreateSystem<IAppStateMachine>())
-
-				#endregion
-
-				#region UI
-
-				.Add(CreateSystem<CloseWindowSystem>())
-				.Add(CreateSystem<HubUISystem>())
-
-				#endregion
-
-				#region Hub
-
-				#endregion
-
-				#region Battle
-
-				.Add(CreateSystem<BuildMapSystem>())
-				.Add(CreateSystem<PlayerSpawnSystem>())
-				.Add(CreateSystem<PlayerInputSystem>())
-				.Add(CreateSystem<MoveSystem>())
-				.Add(CreateSystem<EnemySpawnSystem>())
-				.Add(CreateSystem<DamageSystem>())
-				.Add(CreateSystem<DeathSystem>())
-
-				#endregion
-
-				#region Skills
-
-				.Add(CreateSystem<RaycastAttackSystem>())
-
-				#endregion
-
-				.Add(CreateSystem<PlayerLookCalculationSystem>())
-				.Add(CreateSystem<LookRotationSystem>())
-				.Add(CreateSystem<TimerUpdateSystem>())
-				.Add(CreateSystem<SaveSystem>())
-				.Add(CreateSystem<RemoveRequestsSystem>())
-				.Init();
-
-			return;
-
-			T CreateSystem<T>() where T : IEcsSystem
+			SystemsBuilder[] builders =
 			{
-				return resolver.TryResolve<T>(out var resolved)
-					? resolved
-					: Activator.CreateInstance<T>();
-			}
+				new BaseSystems(resolver),
+				new StateSystems(resolver),
+				new BattleSystems(resolver),
+				new UISystems(resolver),
+				new FinalSystems(resolver)
+			};
+			foreach (var builder in builders)
+				builder.Build(_systems);
+			_systems.Init();
 		}
 
 
