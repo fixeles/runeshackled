@@ -24,9 +24,9 @@ namespace ECS.Systems.Move
 			foreach (var entity in _ecsFilter)
 			{
 				var follower = _world.GetPool<MonoReference<NavigationFollower>>().Get(entity).Reference;
-				var navigation = _world.GetPool<MonoReference<NavigationAgent>>().Get(entity).Reference;
+				var targetPosition = _world.GetPool<PositionComponent>().Get(entity).Value;
 
-				follower.CachedTransform.position = navigation.CachedTransform.position;
+				follower.CachedTransform.position = targetPosition;
 			}
 		}
 	}

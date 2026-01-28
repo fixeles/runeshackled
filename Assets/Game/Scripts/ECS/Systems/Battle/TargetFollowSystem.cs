@@ -22,9 +22,8 @@ namespace ECS.Systems.Battle
 			foreach (var entity in _filter)
 			{
 				var targetEntity = _world.GetPool<HasTargetComponent>().Get(entity).TargetEntity;
-				var targetPosition = _world.GetPool<MonoReference<HitableMono>>()
-					.Get(targetEntity).Reference.AimPoint.position;
-				
+				var targetPosition = _world.GetPool<PositionComponent>().Get(targetEntity).Value;
+
 				_world.GetPool<MoveRequest>().Add(entity).Position = targetPosition;
 			}
 		}

@@ -40,11 +40,12 @@ namespace ECS.Systems.Battle
 			var enemyEntity = _world.CreateLifetimedEntity(lifetime);
 			_world.GetPool<EnemyTag>().Add(enemyEntity);
 
-			var id = _cms.GameConfig.EnemyConfig.ViewId;
 			_world.GetPool<MonoReference<NavigationAgent>>().Add(enemyEntity).Reference = _pool.Get<NavigationAgent>();
 
+			var id = _cms.GameConfig.EnemyConfig.ViewId;
 			var follower = _pool.Get<NavigationFollower>(id);
 			_world.GetPool<MonoReference<NavigationFollower>>().Add(enemyEntity).Reference = follower;
+			_world.GetPool<PositionComponent>().Add(enemyEntity).Value = follower.CachedTransform.position;
 
 			AddHitable(enemyEntity, follower);
 			AddHealth(enemyEntity);

@@ -23,14 +23,13 @@ namespace ECS.Systems.Battle
 		{
 			foreach (var enemyEntity in _aggroFilter)
 			{
-				var attackable = _world.GetPool<MonoReference<AttackableMono>>().Get(enemyEntity).Reference;
+				var enemyPosition = _world.GetPool<PositionComponent>().Get(enemyEntity).Value;
 				var sqrAggroRadius = _world.GetPool<AggroComponent>().Get(enemyEntity).AggroRadius;
 				sqrAggroRadius *= sqrAggroRadius;
 
 				foreach (var playerEntity in _playerFilter)
 				{
-					var playerPosition = _world.GetPool<MonoReference<HitableMono>>().Get(playerEntity).Reference.AimPoint.position;
-					var enemyPosition = attackable.AttackPoint.position;
+					var playerPosition = _world.GetPool<PositionComponent>().Get(playerEntity).Value;
 					var sqrDistance = (playerPosition - enemyPosition).sqrMagnitude;
 					var isInAggroRadius = sqrDistance < sqrAggroRadius;
 

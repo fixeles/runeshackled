@@ -44,6 +44,7 @@ namespace ECS.Systems.Battle
 			var playerEntity = _world.CreateLifetimedEntity(lifetime);
 			_world.GetPool<PlayerTag>().Add(playerEntity);
 			var navigationFollower = Object.Instantiate(_cms.Prefabs.PlayerCharacter);
+			_world.GetPool<PositionComponent>().Add(playerEntity).Value = navigationFollower.CachedTransform.position;
 			_world.GetPool<MonoReference<NavigationFollower>>().Add(playerEntity).Reference = navigationFollower;
 			_world.GetPool<MonoReference<NavigationAgent>>().Add(playerEntity).Reference = _pool.Get<NavigationAgent>();
 			_world.GetPool<MonoReference<AttackableMono>>().Add(playerEntity).Reference = navigationFollower.GetComponent<AttackableMono>();

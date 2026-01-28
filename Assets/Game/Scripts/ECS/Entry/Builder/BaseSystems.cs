@@ -1,6 +1,5 @@
 ﻿using ECS.Systems;
-using ECS.Systems.Look;
-using ECS.Systems.Move;
+using ECS.Systems.Common;
 using Leopotam.EcsLite;
 using VContainer;
 
@@ -13,7 +12,8 @@ namespace ECS.Entry.Builder
 		public override void Build(IEcsSystems systems)
 		{
 			systems
-				.Add(CreateSystem<PlayerInputSystem>());
+				.Add(CreateSystem<PlayerInputSystem>())
+				.Add(CreateSystem<PositionUpdateSystem>());
 		}
 	}
 }
