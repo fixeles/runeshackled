@@ -1,39 +1,35 @@
-using Cysharp.Threading.Tasks;
+using Database;
+using ECS.Components;
+using ECS.Extensions;
+using ECS.Mono;
 using Leopotam.EcsLite;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
 using VContainer;
 using Lifetime = JetBrains.Lifetimes.Lifetime;
 
 namespace ECS.FSM
 {
-	public class HubBuilder : IEcsSystem, IStateEnter, IStateExit
+	public class HubBuilder : IEcsSystem, IStateEnter
 	{
 		private readonly EcsWorld _world;
-		private GameObject _hubGo;
+		private readonly CMS _cms;
 		public AppState TargetState => AppState.Hub;
-		
-		
+
+
 		[Inject]
-		public HubBuilder(EcsWorld world)
+		public HubBuilder(EcsWorld world, CMS cms)
 		{
 			_world = world;
+			_cms = cms;
 		}
 
 		public void Enter(Lifetime lifetime)
 		{
-			SpawnHubAsync().Forget();
-		}
+			var hubEntity = _world.CreateLifetimedEntity(lifetime);
+			var hubView = Object.Instantiate(_cms.Prefabs.HubView);
+			_world.GetPool<MonoReference<HubView>>().Add(hubEntity).Reference = hubView;
 
-		public void Exit()
-		{
-			Object.Destroy(_hubGo);
-		}
-
-		private async UniTaskVoid SpawnHubAsync()
-		{
-			_hubGo = await Addressables.InstantiateAsync("Hub");
-			//deserialize buildings
+			lifetime.OnTermination(() => Object.Destroy(hubView));
 		}
 	}
 }
