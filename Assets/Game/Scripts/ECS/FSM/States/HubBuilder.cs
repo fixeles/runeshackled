@@ -29,7 +29,7 @@ namespace ECS.FSM
 			var hubView = Object.Instantiate(_cms.Prefabs.HubView);
 			_world.GetPool<MonoReference<HubView>>().Add(hubEntity).Reference = hubView;
 
-			lifetime.OnTermination(() => Object.Destroy(hubView));
+			lifetime.OnTermination(() => Object.Destroy(hubView.gameObject));
 		}
 	}
 }

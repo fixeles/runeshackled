@@ -31,7 +31,7 @@ namespace ECS.Systems.Battle
 		{
 			var spawnerEntity = _world.CreateLifetimedEntity(lifetime);
 			ref var timerComponent = ref _world.GetPool<TimerComponent>().Add(spawnerEntity);
-			timerComponent.TimeLeft = _cms.GameConfig.EnemySpawnFrequency;
+			timerComponent.LoopTime = _cms.GameConfig.EnemySpawnFrequency;
 			timerComponent.Callback += () => SpawnEnemies(lifetime);
 		}
 
