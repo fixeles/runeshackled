@@ -2,6 +2,8 @@
 using ECS.Systems.Battle;
 using ECS.Systems.Battle.Health;
 using ECS.Systems.Battle.Skills;
+using ECS.Systems.Look;
+using ECS.Systems.Move;
 using Leopotam.EcsLite;
 using VContainer;
 
@@ -17,9 +19,16 @@ namespace ECS.Entry.Builder
 				.Add(CreateSystem<BuildMapSystem>())
 				.Add(CreateSystem<PlayerSpawnSystem>())
 				.Add(CreateSystem<EnemySpawnSystem>())
+				.Add(CreateSystem<TargetResetSystem>())//before aggro
+				.Add(CreateSystem<EnemyAggroSystem>())
+				.Add(CreateSystem<TargetFollowSystem>())
 				.Add(CreateSystem<DamageSystem>())
 				.Add(CreateSystem<DeathSystem>())
-				.Add(CreateSystem<RaycastAttackSystem>());
+				.Add(CreateSystem<RaycastAttackSystem>())
+				.Add(CreateSystem<MoveSystem>())
+				.Add(CreateSystem<LinkPositionSystem>())
+				.Add(CreateSystem<PlayerLookCalculationSystem>())
+				.Add(CreateSystem<LookRotationSystem>());
 		}
 	}
 }

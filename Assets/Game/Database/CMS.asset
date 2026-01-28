@@ -18,6 +18,7 @@ MonoBehaviour:
       keyCollision: 0
   <Prefabs>k__BackingField:
     <PlayerCharacter>k__BackingField: {fileID: 8052055922147089610, guid: c0d715540f4d7544d986697031957f71, type: 3}
+    <HubView>k__BackingField: {fileID: 6414213284480505234, guid: b0b8c770cbe78594c9c3c0f67558f715, type: 3}
   <LevelViews>k__BackingField:
   - {fileID: 2675130357905533772, guid: d26835b104d35834ea77fb516bea719f, type: 3}
   <GameConfig>k__BackingField: {fileID: 11400000, guid: da18707991547284bb412e22620f3aa4, type: 2}

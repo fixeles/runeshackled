@@ -5,7 +5,6 @@ using ECS.FSM;
 using ECS.Mono;
 using FPS.Pool;
 using JetBrains.Collections.Viewable;
-using JetBrains.Lifetimes;
 using Leopotam.EcsLite;
 using VContainer;
 using Lifetime = JetBrains.Lifetimes.Lifetime;
@@ -32,7 +31,7 @@ namespace ECS.Systems.Battle
 		{
 			var spawnerEntity = _world.CreateLifetimedEntity(lifetime);
 			ref var timerComponent = ref _world.GetPool<TimerComponent>().Add(spawnerEntity);
-			timerComponent.LoopTime = _cms.GameConfig.EnemySpawnFrequency;
+			timerComponent.TimeLeft = _cms.GameConfig.EnemySpawnFrequency;
 			timerComponent.Callback += () => SpawnEnemies(lifetime);
 		}
 
@@ -49,6 +48,14 @@ namespace ECS.Systems.Battle
 
 			AddHitable(enemyEntity, follower);
 			AddHealth(enemyEntity);
+			AddAggro(enemyEntity);
+			AddAttack(enemyEntity, follower);
+		}
+
+		private void AddAttack(int enemyEntity, NavigationFollower follower)
+		{
+			_world.GetPool<MonoReference<AttackableMono>>().Add(enemyEntity).Reference
+				= follower.GetComponent<AttackableMono>();
 		}
 
 		private void AddHealth(int enemyEntity)
@@ -58,12 +65,17 @@ namespace ECS.Systems.Battle
 			health.CurrentHealth = new ViewableProperty<float>(100);
 		}
 
-		private void AddHitable(int enemyEntity, NavigationFollower follower)
+		private void AddHitable(int entity, NavigationFollower follower)
 		{
-			var hitable = _world.GetPool<MonoReference<HitableMono>>().Add(enemyEntity).Reference =
+			var hitable = _world.GetPool<MonoReference<HitableMono>>().Add(entity).Reference =
 				follower.GetComponentInChildren<HitableMono>();
-			hitable.Entity = enemyEntity;
+			hitable.Entity = entity;
 			hitable.SetActive(true);
+		}
+
+		private void AddAggro(int enemyEntity)
+		{
+			_world.GetPool<AggroComponent>().Add(enemyEntity).AggroRadius = 5;
 		}
 	}
 }

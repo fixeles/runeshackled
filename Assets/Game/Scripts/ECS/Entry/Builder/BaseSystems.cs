@@ -13,11 +13,7 @@ namespace ECS.Entry.Builder
 		public override void Build(IEcsSystems systems)
 		{
 			systems
-				.Add(CreateSystem<PlayerInputSystem>())
-				.Add(CreateSystem<MoveSystem>())
-				.Add(CreateSystem<LinkPositionSystem>())
-				.Add(CreateSystem<PlayerLookCalculationSystem>())
-				.Add(CreateSystem<LookRotationSystem>());
+				.Add(CreateSystem<PlayerInputSystem>());
 		}
 	}
 }

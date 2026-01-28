@@ -20,11 +20,6 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: b0b8c770cbe78594c9c3c0f67558f715
-    m_Address: Hub
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: cc3b5a81db3b6d14fbbcd4ee7b168e3c
     m_Address: Assets/FPS/Base/Prefabs/Addressables/MainMenuWindow.prefab
     m_ReadOnly: 0

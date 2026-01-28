@@ -4,6 +4,7 @@ using ECS.Extensions;
 using ECS.FSM;
 using ECS.Mono;
 using FPS.Pool;
+using JetBrains.Collections.Viewable;
 using Leopotam.EcsLite;
 using Unity.Cinemachine;
 using UnityEngine;
@@ -49,19 +50,41 @@ namespace ECS.Systems.Battle
 
 			_mainCamera.Follow = navigationFollower.transform;
 
+			AddLookTracker(playerEntity, navigationFollower);
+			AddHitable(playerEntity, navigationFollower);
+			AddHealth(playerEntity);
+
+			return playerEntity;
+		}
+
+		private void AddHitable(int entity, NavigationFollower follower)
+		{
+			var hitable = _world.GetPool<MonoReference<HitableMono>>().Add(entity).Reference =
+				follower.GetComponentInChildren<HitableMono>();
+			hitable.Entity = entity;
+			hitable.SetActive(true);
+		}
+
+		private void AddHealth(int enemyEntity)
+		{
+			ref var health = ref _world.GetPool<HealthComponent>().Add(enemyEntity);
+			health.MaxHealth = new ViewableProperty<float>(200);
+			health.CurrentHealth = new ViewableProperty<float>(200);
+		}
+
+		private void AddLookTracker(int playerEntity, NavigationFollower navigationFollower)
+		{
 			ref var lookComponent = ref _world.GetPool<LookDirection>().Add(playerEntity);
 			lookComponent.Tracker = navigationFollower.GetComponentInChildren<LookTracker>();
 			lookComponent.TargetLocalRotation = Quaternion.identity;
 			lookComponent.RotationSpeed = 5f;
-
-			return playerEntity;
 		}
 
 		private void AddAttackSkill(int playerEntity)
 		{
 			var playerLifetime = _world.GetPool<LifetimeComponent>().Get(playerEntity).Lifetime;
 			var skillEntity = _world.CreateLifetimedEntity(playerLifetime);
-			
+
 			_world.GetPool<ChildComponent>().Add(skillEntity).OwnerEntity = playerEntity;
 			_world.GetPool<MeleeAttack>().Add(skillEntity);
 			_world.GetPool<Damage>().Add(skillEntity).Value = 50;

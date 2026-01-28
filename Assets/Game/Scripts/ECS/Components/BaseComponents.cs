@@ -1,6 +1,5 @@
 ﻿using System;
 using ECS.Mono;
-using Enum;
 using JetBrains.Collections.Viewable;
 using JetBrains.Lifetimes;
 using UnityEngine;
@@ -35,6 +34,16 @@ namespace ECS.Components
 		public IViewableProperty<float> CurrentHealth;
 	}
 
+	public struct HasTargetComponent
+	{
+		public int TargetEntity;
+	}
+	
+	public struct AggroComponent
+	{
+		public float AggroRadius;
+	}
+	
 	public struct ChildComponent
 	{
 		public int OwnerEntity;

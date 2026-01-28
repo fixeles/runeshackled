@@ -1,4 +1,5 @@
 ﻿using System;
+using FPS;
 using UnityEngine;
 
 namespace ECS.Mono
@@ -6,7 +7,7 @@ namespace ECS.Mono
 	public class HitableMono : MonoBehaviour
 	{
 		[field: SerializeField] public Transform AimPoint { get; private set; }
-		[SerializeField] private Collider _collider;
+		[SerializeField, Get] private Collider _collider;
 
 
 		[NonSerialized] public int Entity;
