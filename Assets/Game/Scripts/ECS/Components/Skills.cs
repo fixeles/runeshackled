@@ -2,7 +2,7 @@
 {
 	public struct MeleeAttack { }
 
-	public struct PhysicInfluence
+	public struct Maskable
 	{
 		public int LayerMask;
 	}

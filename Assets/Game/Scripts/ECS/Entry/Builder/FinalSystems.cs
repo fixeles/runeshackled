@@ -1,6 +1,5 @@
 ﻿using ECS.Systems;
 using ECS.Systems.Common;
-using ECS.Systems.Timer;
 using Leopotam.EcsLite;
 using VContainer;
 
@@ -13,7 +12,6 @@ namespace ECS.Entry.Builder
 		public override void Build(IEcsSystems systems)
 		{
 			systems
-				.Add(CreateSystem<TimerUpdateSystem>())
 				.Add(CreateSystem<SaveSystem>())
 				.Add(CreateSystem<RemoveRequestsSystem>());
 		}

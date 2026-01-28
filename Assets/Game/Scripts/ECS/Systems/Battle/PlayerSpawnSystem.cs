@@ -90,7 +90,7 @@ namespace ECS.Systems.Battle
 			_world.GetPool<MeleeAttack>().Add(skillEntity);
 			_world.GetPool<Damage>().Add(skillEntity).Value = 50;
 			_world.GetPool<Range>().Add(skillEntity).Value = 3;
-			_world.GetPool<PhysicInfluence>().Add(skillEntity).LayerMask = LayerMask.GetMask("Enemy");
+			_world.GetPool<Maskable>().Add(skillEntity).LayerMask = LayerMask.GetMask("Enemy");
 			_world.GetPool<SelectedSkill>().Add(skillEntity);
 		}
 	}

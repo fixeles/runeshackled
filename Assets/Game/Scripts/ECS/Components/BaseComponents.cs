@@ -32,6 +32,16 @@ namespace ECS.Components
 	{
 		public Vector3 Value;
 	}
+	
+	public struct CooldownComponent
+	{
+		public float TimeLeft;
+	}
+	
+	public struct PreparationComponent
+	{
+		public float TimeLeft;
+	}
 
 	public struct HealthComponent
 	{

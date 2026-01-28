@@ -1,5 +1,5 @@
-﻿using ECS.Systems;
-using ECS.Systems.Common;
+﻿using ECS.Systems.Common;
+using ECS.Systems.Timer;
 using Leopotam.EcsLite;
 using VContainer;
 
@@ -13,7 +13,10 @@ namespace ECS.Entry.Builder
 		{
 			systems
 				.Add(CreateSystem<PlayerInputSystem>())
-				.Add(CreateSystem<PositionUpdateSystem>());
+				.Add(CreateSystem<PositionUpdateSystem>())
+				.Add(CreateSystem<TimerUpdateSystem>())
+				.Add(CreateSystem<UsePreparationSystem>())
+				.Add(CreateSystem<CooldownSystem>());
 		}
 	}
 }

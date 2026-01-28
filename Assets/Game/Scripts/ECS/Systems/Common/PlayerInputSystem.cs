@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using VContainer;
 
-namespace ECS.Systems
+namespace ECS.Systems.Common
 {
 	public class PlayerInputSystem : IEcsRunSystem, IEcsInitSystem, IEcsDestroySystem
 	{
@@ -21,7 +21,7 @@ namespace ECS.Systems
 			_inputs = inputs;
 			_world = world;
 			_playerFilter = world.Filter<PlayerTag>().End();
-			_activeSkillFilter = world.Filter<SelectedSkill>().End();
+			_activeSkillFilter = world.Filter<SelectedSkill>().Exc<PreparationComponent>().Exc<CooldownComponent>().End();
 		}
 
 		public void Init(IEcsSystems systems)
@@ -38,7 +38,7 @@ namespace ECS.Systems
 		{
 			foreach (var skillEntity in _activeSkillFilter)
 			{
-				_world.GetPool<UseRequest>().Add(skillEntity);
+				_world.GetPool<PreparationComponent>().Add(skillEntity).TimeLeft += 0.5f; //todo: from config
 			}
 		}
 

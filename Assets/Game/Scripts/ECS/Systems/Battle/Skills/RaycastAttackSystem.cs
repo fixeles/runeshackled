@@ -20,7 +20,7 @@ namespace ECS.Systems.Battle.Skills
 		{
 			_cms = cms;
 			_world = world;
-			_skillFilter = _world.Filter<MeleeAttack>().Inc<UseRequest>().End();
+			_skillFilter = _world.Filter<MeleeAttack>().Inc<UseRequest>().Exc<CooldownComponent>().End();
 		}
 
 		public void Update()
@@ -31,9 +31,11 @@ namespace ECS.Systems.Battle.Skills
 				var attackableMono = _world.GetPool<MonoReference<AttackableMono>>().Get(ownerEntity);
 				var range = _world.GetPool<Range>().Get(skillEntity).Value;
 				var attackPoint = attackableMono.Reference.AttackPoint;
-				var mask = _world.GetPool<PhysicInfluence>().Get(skillEntity).LayerMask;
+				var mask = _world.GetPool<Maskable>().Get(skillEntity).LayerMask;
 				var raycast = Physics.RaycastAll(attackPoint.position, attackPoint.forward, range, mask);
 
+				// _world.GetPool<CooldownComponent>().Add(skillEntity).TimeLeft = 1; //todo: from config
+				
 				if (raycast.Length == 0)
 					continue;
 
