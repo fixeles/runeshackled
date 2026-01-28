@@ -6,6 +6,7 @@ using ECS.Mono;
 using FPS.Pool;
 using JetBrains.Collections.Viewable;
 using Leopotam.EcsLite;
+using UnityEngine;
 using VContainer;
 using Lifetime = JetBrains.Lifetimes.Lifetime;
 
@@ -40,12 +41,17 @@ namespace ECS.Systems.Battle
 			var enemyEntity = _world.CreateLifetimedEntity(lifetime);
 			_world.GetPool<EnemyTag>().Add(enemyEntity);
 
-			_world.GetPool<MonoReference<NavigationAgent>>().Add(enemyEntity).Reference = _pool.Get<NavigationAgent>();
+			var navigationAgent = _pool.Get<NavigationAgent>();
+			_world.GetPool<MonoReference<NavigationAgent>>().Add(enemyEntity).Reference = navigationAgent;
 
 			var id = _cms.GameConfig.EnemyConfig.ViewId;
 			var follower = _pool.Get<NavigationFollower>(id);
+			follower.CachedTransform.SetParent(navigationAgent.CachedTransform);
+			follower.CachedTransform.localPosition = Vector3.zero;
+			follower.CachedTransform.localRotation = Quaternion.identity;
+			
 			_world.GetPool<MonoReference<NavigationFollower>>().Add(enemyEntity).Reference = follower;
-			_world.GetPool<PositionComponent>().Add(enemyEntity).Value = follower.CachedTransform.position;
+			_world.GetPool<PositionComponent>().Add(enemyEntity).Value = navigationAgent.CachedTransform.position;
 
 			AddHitable(enemyEntity, follower);
 			AddHealth(enemyEntity);

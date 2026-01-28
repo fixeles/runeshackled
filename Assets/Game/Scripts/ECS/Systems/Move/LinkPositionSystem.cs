@@ -16,7 +16,7 @@ namespace ECS.Systems.Move
 			_world = world;
 			_ecsFilter = world
 				.Filter<MonoReference<NavigationFollower>>()
-				.Inc<MonoReference<NavigationAgent>>().End();
+				.Inc<MonoReference<NavigationAgent>>().Inc<PlayerTag>().End();
 		}
 
 		public void Run(IEcsSystems systems)
