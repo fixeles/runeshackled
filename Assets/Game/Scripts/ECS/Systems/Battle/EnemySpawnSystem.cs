@@ -12,12 +12,12 @@ using Lifetime = JetBrains.Lifetimes.Lifetime;
 
 namespace ECS.Systems.Battle
 {
-	public class EnemySpawnSystem : IEcsSystem, IStateEnter
+	public class EnemySpawnSystem : IStateEnter, IEcsRunSystem
 	{
-		private readonly Lifetime _appLifetime;
 		private readonly EcsWorld _world;
 		private readonly CMS _cms;
 		private readonly IObjectPool _pool;
+		private readonly EcsFilter _spawnerFilter;
 		public AppState TargetState => AppState.Battle;
 
 		[Inject]
@@ -26,16 +26,25 @@ namespace ECS.Systems.Battle
 			_world = world;
 			_cms = cms;
 			_pool = pool;
+			_spawnerFilter = _world.Filter<SpawnerComponent>().Exc<CooldownComponent>().End();
 		}
 
 		public void Enter(Lifetime lifetime)
 		{
 			var spawnerEntity = _world.CreateLifetimedEntity(lifetime);
-			ref var timerComponent = ref _world.GetPool<TimerComponent>().Add(spawnerEntity);
-			timerComponent.LoopTime = _cms.GameConfig.EnemySpawnFrequency;
-			timerComponent.Callback += () => SpawnEnemies(lifetime);
+			_world.GetPool<SpawnerComponent>().Add(spawnerEntity);
 		}
 
+		public void Run(IEcsSystems systems)
+		{
+			foreach (var entity in _spawnerFilter)
+			{
+				var spawnerLifetime = _world.GetPool<LifetimeComponent>().Get(entity).Lifetime;
+				SpawnEnemies(spawnerLifetime);
+				_world.GetPool<CooldownComponent>().Add(entity).TimeLeft = _cms.GameConfig.EnemySpawnFrequency;
+			}
+		}
+		
 		private void SpawnEnemies(Lifetime lifetime)
 		{
 			var enemyEntity = _world.CreateLifetimedEntity(lifetime);

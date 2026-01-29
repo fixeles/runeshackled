@@ -26,6 +26,11 @@ namespace ECS.Components
 		public bool Loop => LoopTime > 0;
 	}
 
+	public struct SpawnerComponent
+	{
+		public string Id;
+	}
+
 	public struct Movable { }
 
 	public struct PositionComponent
