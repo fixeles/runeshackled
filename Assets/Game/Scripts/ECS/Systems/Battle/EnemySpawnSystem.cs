@@ -2,11 +2,9 @@
 using ECS.Components;
 using ECS.Extensions;
 using ECS.FSM;
-using ECS.Mono;
+using Enum;
 using FPS.Pool;
-using JetBrains.Collections.Viewable;
 using Leopotam.EcsLite;
-using UnityEngine;
 using VContainer;
 using Lifetime = JetBrains.Lifetimes.Lifetime;
 
@@ -40,58 +38,17 @@ namespace ECS.Systems.Battle
 			foreach (var entity in _spawnerFilter)
 			{
 				var spawnerLifetime = _world.GetPool<LifetimeComponent>().Get(entity).Lifetime;
-				SpawnEnemies(spawnerLifetime);
+				SpawnEnemy(spawnerLifetime);
 				_world.GetPool<CooldownComponent>().Add(entity).TimeLeft = _cms.GameConfig.EnemySpawnFrequency;
 			}
 		}
 		
-		private void SpawnEnemies(Lifetime lifetime)
+		private void SpawnEnemy(Lifetime lifetime)
 		{
 			var enemyEntity = _world.CreateLifetimedEntity(lifetime);
 			_world.GetPool<EnemyTag>().Add(enemyEntity);
-
-			var navigationAgent = _pool.Get<NavigationAgent>();
-			_world.GetPool<MonoReference<NavigationAgent>>().Add(enemyEntity).Reference = navigationAgent;
-
-			var id = _cms.GameConfig.EnemyConfig.ViewId;
-			var follower = _pool.Get<NavigationFollower>(id);
-			follower.CachedTransform.SetParent(navigationAgent.CachedTransform);
-			follower.CachedTransform.localPosition = Vector3.zero;
-			follower.CachedTransform.localRotation = Quaternion.identity;
-			
-			_world.GetPool<MonoReference<NavigationFollower>>().Add(enemyEntity).Reference = follower;
-			_world.GetPool<PositionComponent>().Add(enemyEntity).Value = navigationAgent.CachedTransform.position;
-
-			AddHitable(enemyEntity, follower);
-			AddHealth(enemyEntity);
-			AddAggro(enemyEntity);
-			AddAttack(enemyEntity, follower);
-		}
-
-		private void AddAttack(int enemyEntity, NavigationFollower follower)
-		{
-			_world.GetPool<MonoReference<AttackableMono>>().Add(enemyEntity).Reference
-				= follower.GetComponent<AttackableMono>();
-		}
-
-		private void AddHealth(int enemyEntity)
-		{
-			ref var health = ref _world.GetPool<HealthComponent>().Add(enemyEntity);
-			health.MaxHealth = new ViewableProperty<float>(100);
-			health.CurrentHealth = new ViewableProperty<float>(100);
-		}
-
-		private void AddHitable(int entity, NavigationFollower follower)
-		{
-			var hitable = _world.GetPool<MonoReference<HitableMono>>().Add(entity).Reference =
-				follower.GetComponentInChildren<HitableMono>();
-			hitable.Entity = entity;
-			hitable.SetActive(true);
-		}
-
-		private void AddAggro(int enemyEntity)
-		{
-			_world.GetPool<AggroComponent>().Add(enemyEntity).AggroRadius = 5;
+			_world.GetPool<UnitId>().Add(enemyEntity) = UnitId.base_enemy;
+			_world.GetPool<InitRequest>().Add(enemyEntity);
 		}
 	}
 }

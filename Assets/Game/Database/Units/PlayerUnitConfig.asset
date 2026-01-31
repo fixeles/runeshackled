@@ -9,6 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 65f1692e36f24e3d8f8a504a9c9594e9, type: 3}
-  m_Name: PlayerNavigationConfig
-  m_EditorClassIdentifier: Assembly-CSharp::Database.Enemies.NavigationConfig
+  m_Script: {fileID: 11500000, guid: 6519366489f04bd78004f6c4c06bfc02, type: 3}
+  m_Name: PlayerUnitConfig
+  m_EditorClassIdentifier: Assembly-CSharp::Database.CombatUnitConfig
+  <Health>k__BackingField: 400
+  <AggroRadius>k__BackingField: 1

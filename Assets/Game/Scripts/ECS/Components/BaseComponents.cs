@@ -1,5 +1,6 @@
 ﻿using System;
 using ECS.Mono;
+using Enum;
 using JetBrains.Collections.Viewable;
 using JetBrains.Lifetimes;
 using UnityEngine;
@@ -28,7 +29,7 @@ namespace ECS.Components
 
 	public struct SpawnerComponent
 	{
-		public string Id;
+		public UnitId Id;
 	}
 
 	public struct Movable { }

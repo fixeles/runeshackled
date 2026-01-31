@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f3dbdd86caf43b8a2b5bbadfe8afa5d, type: 3}
+  m_Name: AllCombatUnits
+  m_EditorClassIdentifier: Assembly-CSharp::Database.CombatUnits
+  _units:
+    list:
+    - Key: 1
+      Value: {fileID: 11400000, guid: 81d7bdc9eb0b8574ea0a0b485c46dafe, type: 2}
+    - Key: 0
+      Value: {fileID: 11400000, guid: 00406ebafd292b24a97017c473362d3b, type: 2}
+    keyCollision: 0

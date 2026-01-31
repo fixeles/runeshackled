@@ -1,0 +1,84 @@
+﻿using Database;
+using ECS.Components;
+using ECS.Mono;
+using Enum;
+using FPS.Pool;
+using JetBrains.Collections.Viewable;
+using Leopotam.EcsLite;
+using UnityEngine;
+using VContainer;
+
+namespace ECS.Systems.Battle
+{
+	public class CombatUnitInitSystem : IEcsRunSystem
+	{
+		private readonly EcsFilter _filter;
+		private readonly EcsWorld _world;
+		private readonly IObjectPool _objectPool;
+		private readonly CMS _cms;
+
+		[Inject]
+		public CombatUnitInitSystem(EcsWorld world, IObjectPool objectPool, CMS cms)
+		{
+			_world = world;
+			_objectPool = objectPool;
+			_cms = cms;
+			_filter = _world.Filter<UnitId>().Inc<InitRequest>().End();
+		}
+
+		public void Run(IEcsSystems systems)
+		{
+			foreach (var entity in _filter)
+			{
+				var id = _world.GetPool<UnitId>().Get(entity);
+				var config = _cms.GameConfig.CombatUnits.Get(id);
+				Debug.Log(id.ToString());
+
+				var navigationAgent = _objectPool.Get<NavigationAgent>();
+				_world.GetPool<MonoReference<NavigationAgent>>().Add(entity).Reference = navigationAgent;
+
+				var follower = _objectPool.Get<NavigationFollower>(id.ToString());
+				_world.GetPool<MonoReference<NavigationFollower>>().Add(entity).Reference = follower;
+				follower.CachedTransform.SetParent(navigationAgent.CachedTransform);
+				follower.CachedTransform.localPosition = Vector3.zero;
+				follower.CachedTransform.localRotation = Quaternion.identity;
+
+				_world.GetPool<PositionComponent>().Add(entity).Value = navigationAgent.CachedTransform.position;
+
+				AddHitable(entity, config, follower);
+				AddAggro(entity, config);
+				TryAddAttack(entity, follower);
+			}
+		}
+
+
+		private void TryAddAttack(int enemyEntity, NavigationFollower follower)
+		{
+			_world.GetPool<MonoReference<AttackableMono>>().Add(enemyEntity).Reference
+				= follower.GetComponent<AttackableMono>();
+		}
+
+		private void AddHitable(int entity, CombatUnitConfig config, NavigationFollower follower)
+		{
+			if (config.Health <= 0)
+				return;
+
+			ref var health = ref _world.GetPool<HealthComponent>().Add(entity);
+			health.MaxHealth = new ViewableProperty<float>(config.Health);
+			health.CurrentHealth = new ViewableProperty<float>(config.Health);
+
+			var hitable = _world.GetPool<MonoReference<HitableMono>>().Add(entity).Reference =
+				follower.GetComponentInChildren<HitableMono>();
+			hitable.Entity = entity;
+			hitable.SetActive(true);
+		}
+
+		private void AddAggro(int enemyEntity, CombatUnitConfig config)
+		{
+			if (config.AggroRadius <= 0)
+				return;
+
+			_world.GetPool<AggroComponent>().Add(enemyEntity).AggroRadius = config.AggroRadius;
+		}
+	}
+}
