@@ -19,6 +19,12 @@ namespace ECS.Extensions
 			return newEntity;
 		}
 
+		public static int CreateLifetimedEntity(this EcsWorld world, int parentEntity)
+		{
+			var parentLifetime = world.GetPool<LifetimeComponent>().Get(parentEntity).Lifetime;
+			return CreateLifetimedEntity(world, parentLifetime);
+		}
+
 		public static void DestroyLifetimedEntity(this EcsWorld world, int entity)
 		{
 			var lifetimePool = world.GetPool<LifetimeComponent>();

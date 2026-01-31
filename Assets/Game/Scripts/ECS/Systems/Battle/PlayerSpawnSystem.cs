@@ -83,8 +83,7 @@ namespace ECS.Systems.Battle
 
 		private void AddAttackSkill(int playerEntity)
 		{
-			var playerLifetime = _world.GetPool<LifetimeComponent>().Get(playerEntity).Lifetime;
-			var skillEntity = _world.CreateLifetimedEntity(playerLifetime);
+			var skillEntity = _world.CreateLifetimedEntity(playerEntity);
 
 			_world.GetPool<ChildComponent>().Add(skillEntity).OwnerEntity = playerEntity;
 			_world.GetPool<MeleeAttack>().Add(skillEntity);

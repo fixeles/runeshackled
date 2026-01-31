@@ -32,17 +32,18 @@ namespace ECS.Systems.Battle.Skills
 				var range = _world.GetPool<Range>().Get(skillEntity).Value;
 				var attackPoint = attackableMono.Reference.AttackPoint;
 				var mask = _world.GetPool<Maskable>().Get(skillEntity).LayerMask;
-				var raycast = Physics.RaycastAll(attackPoint.position, attackPoint.forward, range, mask);
+				var isRaycastHit = Physics.Raycast(attackPoint.position, attackPoint.forward, out var hit, range, mask);
 
+				Debug.Log("attack");
 				// _world.GetPool<CooldownComponent>().Add(skillEntity).TimeLeft = 1; //todo: from config
-				
-				if (raycast.Length == 0)
+				if (!isRaycastHit)
 					continue;
 
-				if (!raycast[0].collider.TryGetComponent<HitableMono>(out var hitableMono))
+				if (!hit.collider.TryGetComponent<HitableMono>(out var hitableMono))
 					continue;
 
 				//todo: add hit request
+				Debug.Log("hit");
 				var requestEntity = _world.NewEntity();
 				ref var request = ref _world.GetPool<DamageRequest>().Add(requestEntity);
 				request.TargetEntity = hitableMono.Entity;
