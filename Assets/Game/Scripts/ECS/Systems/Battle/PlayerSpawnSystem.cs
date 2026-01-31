@@ -1,12 +1,8 @@
-﻿using Database;
-using ECS.Components;
+﻿using ECS.Components;
 using ECS.Extensions;
 using ECS.FSM;
-using ECS.Mono;
-using FPS.Pool;
-using JetBrains.Collections.Viewable;
+using Enum;
 using Leopotam.EcsLite;
-using Unity.Cinemachine;
 using UnityEngine;
 using VContainer;
 using Lifetime = JetBrains.Lifetimes.Lifetime;
@@ -15,22 +11,15 @@ namespace ECS.Systems.Battle
 {
 	public class PlayerSpawnSystem : IStateEnter, IEcsSystem
 	{
-		private readonly CMS _cms;
 		private readonly EcsWorld _world;
-		private readonly CinemachineCamera _mainCamera;
-		private readonly IObjectPool _pool;
 
 		public AppState TargetState => AppState.Battle;
 
 
 		[Inject]
-		public PlayerSpawnSystem(CMS cms, EcsWorld world,
-			CinemachineCamera mainCamera, IObjectPool pool)
+		public PlayerSpawnSystem(EcsWorld world)
 		{
-			_cms = cms;
 			_world = world;
-			_mainCamera = mainCamera;
-			_pool = pool;
 		}
 
 		public void Enter(Lifetime lifetime)
@@ -43,42 +32,11 @@ namespace ECS.Systems.Battle
 		{
 			var playerEntity = _world.CreateLifetimedEntity(lifetime);
 			_world.GetPool<PlayerTag>().Add(playerEntity);
-			var navigationFollower = Object.Instantiate(_cms.Prefabs.PlayerCharacter);
-			_world.GetPool<PositionComponent>().Add(playerEntity).Value = navigationFollower.CachedTransform.position;
-			_world.GetPool<MonoReference<NavigationFollower>>().Add(playerEntity).Reference = navigationFollower;
-			_world.GetPool<MonoReference<NavigationAgent>>().Add(playerEntity).Reference = _pool.Get<NavigationAgent>();
-			_world.GetPool<MonoReference<AttackableMono>>().Add(playerEntity).Reference = navigationFollower.GetComponent<AttackableMono>();
-
-			_mainCamera.Follow = navigationFollower.transform;
-
-			AddLookTracker(playerEntity, navigationFollower);
-			AddHitable(playerEntity, navigationFollower);
-			AddHealth(playerEntity);
+			_world.GetPool<UnitId>().Add(playerEntity) = UnitId.player;
+			_world.GetPool<InitRequest>().Add(playerEntity);
+			
 
 			return playerEntity;
-		}
-
-		private void AddHitable(int entity, NavigationFollower follower)
-		{
-			var hitable = _world.GetPool<MonoReference<HitableMono>>().Add(entity).Reference =
-				follower.GetComponentInChildren<HitableMono>();
-			hitable.Entity = entity;
-			hitable.SetActive(true);
-		}
-
-		private void AddHealth(int enemyEntity)
-		{
-			ref var health = ref _world.GetPool<HealthComponent>().Add(enemyEntity);
-			health.MaxHealth = new ViewableProperty<float>(200);
-			health.CurrentHealth = new ViewableProperty<float>(200);
-		}
-
-		private void AddLookTracker(int playerEntity, NavigationFollower navigationFollower)
-		{
-			ref var lookComponent = ref _world.GetPool<LookDirection>().Add(playerEntity);
-			lookComponent.Tracker = navigationFollower.GetComponentInChildren<LookTracker>();
-			lookComponent.TargetLocalRotation = Quaternion.identity;
-			lookComponent.RotationSpeed = 5f;
 		}
 
 		private void AddAttackSkill(int playerEntity)

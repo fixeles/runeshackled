@@ -31,7 +31,7 @@ namespace ECS.Systems.Look
 				worldPosition.y = lookComponent.Tracker.LookTransform.position.y;
 
 				var lookVector = worldPosition - lookComponent.Tracker.LookTransform.position;
-				lookComponent.TargetLocalRotation = Quaternion.LookRotation(lookVector);
+				lookComponent.TargetRotation = Quaternion.LookRotation(lookVector);
 			}
 		}
 	}

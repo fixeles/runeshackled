@@ -32,22 +32,19 @@ namespace ECS.Systems.Battle
 			{
 				var id = _world.GetPool<UnitId>().Get(entity);
 				var config = _cms.GameConfig.CombatUnits.Get(id);
-				Debug.Log(id.ToString());
 
 				var navigationAgent = _objectPool.Get<NavigationAgent>();
 				_world.GetPool<MonoReference<NavigationAgent>>().Add(entity).Reference = navigationAgent;
 
 				var follower = _objectPool.Get<NavigationFollower>(id.ToString());
 				_world.GetPool<MonoReference<NavigationFollower>>().Add(entity).Reference = follower;
-				follower.CachedTransform.SetParent(navigationAgent.CachedTransform);
-				follower.CachedTransform.localPosition = Vector3.zero;
-				follower.CachedTransform.localRotation = Quaternion.identity;
 
 				_world.GetPool<PositionComponent>().Add(entity).Value = navigationAgent.CachedTransform.position;
 
 				AddHitable(entity, config, follower);
 				AddAggro(entity, config);
 				TryAddAttack(entity, follower);
+				AddLookTracker(entity, config, follower);
 			}
 		}
 
@@ -71,6 +68,14 @@ namespace ECS.Systems.Battle
 				follower.GetComponentInChildren<HitableMono>();
 			hitable.Entity = entity;
 			hitable.SetActive(true);
+		}
+
+		private void AddLookTracker(int entity, CombatUnitConfig config, NavigationFollower navigationFollower)
+		{
+			ref var lookComponent = ref _world.GetPool<LookDirection>().Add(entity);
+			lookComponent.Tracker = navigationFollower.GetComponentInChildren<LookTracker>();
+			lookComponent.TargetRotation = Quaternion.identity;
+			lookComponent.RotationSpeed = config.RotationSpeed;
 		}
 
 		private void AddAggro(int enemyEntity, CombatUnitConfig config)

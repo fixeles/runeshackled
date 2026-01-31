@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 736130393353601283}
   - component: {fileID: 7841574168491702063}
   - component: {fileID: 1310866050018848949}
+  - component: {fileID: 1624012796700633252}
   m_Layer: 7
   m_Name: UnitBase
   m_TagString: Untagged
@@ -74,6 +75,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ECS.Mono.AttackableMono
   <AttackPoint>k__BackingField: {fileID: 5805799620630307359}
+--- !u!114 &1624012796700633252
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6316668426720692967}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e591b546a215445e9bb0a3107c1b5654, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ECS.Mono.LookTracker
+  <LookTransform>k__BackingField: {fileID: 8738957136482170163}
 --- !u!1 &6383382120890697687
 GameObject:
   m_ObjectHideFlags: 0

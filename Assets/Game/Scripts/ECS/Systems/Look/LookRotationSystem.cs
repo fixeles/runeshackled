@@ -24,7 +24,7 @@ namespace ECS.Systems.Look
 				ref var lookComponent = ref _world.GetPool<LookDirection>().Get(entity);
 				var softRotation = Quaternion.Lerp(
 					lookComponent.Tracker.LookTransform.rotation,
-					lookComponent.TargetLocalRotation,
+					lookComponent.TargetRotation,
 					lookComponent.RotationSpeed * Time.deltaTime);
 				lookComponent.Tracker.LookTransform.rotation = softRotation;
 			}

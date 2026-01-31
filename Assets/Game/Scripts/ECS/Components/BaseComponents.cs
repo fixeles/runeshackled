@@ -82,7 +82,7 @@ namespace ECS.Components
 	public struct LookDirection
 	{
 		public float RotationSpeed;
-		public Quaternion TargetLocalRotation;
+		public Quaternion TargetRotation;
 		public LookTracker Tracker;
 	}
 }

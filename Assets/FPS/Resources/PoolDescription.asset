@@ -17,6 +17,10 @@ MonoBehaviour:
     <Count>k__BackingField: 20
     <Key>k__BackingField: base_enemy
     <PrewarmType>k__BackingField: 0
+  - <Prefab>k__BackingField: {fileID: 5467971295263901039, guid: c0d715540f4d7544d986697031957f71, type: 3}
+    <Count>k__BackingField: 1
+    <Key>k__BackingField: player
+    <PrewarmType>k__BackingField: 0
   - <Prefab>k__BackingField: {fileID: 736130393353601283, guid: d8176913d85e3cf47a3b8fc9a4a573c3, type: 3}
     <Count>k__BackingField: 20
     <Key>k__BackingField: 

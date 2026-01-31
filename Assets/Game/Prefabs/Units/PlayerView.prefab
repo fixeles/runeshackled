@@ -100,6 +100,7 @@ GameObject:
   - component: {fileID: 8738957136482170163}
   - component: {fileID: 8803721501008756199}
   - component: {fileID: 8052055922147089610}
+  - component: {fileID: 5467971295263901039}
   m_Layer: 6
   m_Name: PlayerView
   m_TagString: Untagged
@@ -149,6 +150,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ECS.Mono.NavigationFollower
   <CachedTransform>k__BackingField: {fileID: 8738957136482170163}
+--- !u!114 &5467971295263901039
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6316668426720692967}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2997df691bb746aaa38a16530435a0d5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: FPS.Pool::FPS.Pool.Poolable
+  <Type>k__BackingField: {fileID: 8052055922147089610}
 --- !u!1 &6383382120890697687
 GameObject:
   m_ObjectHideFlags: 0

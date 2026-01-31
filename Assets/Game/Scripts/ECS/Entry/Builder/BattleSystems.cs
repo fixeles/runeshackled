@@ -21,6 +21,7 @@ namespace ECS.Entry.Builder
 				.Add(CreateSystem<PlayerSpawnSystem>())
 				.Add(CreateSystem<EnemySpawnSystem>())
 				.Add(CreateSystem<CombatUnitInitSystem>())
+				.Add(CreateSystem<CameraSystem>())
 				.Add(CreateSystem<SkillsInitSystem>())
 				
 				.Add(CreateSystem<TargetResetSystem>())//before aggro
@@ -32,6 +33,7 @@ namespace ECS.Entry.Builder
 				.Add(CreateSystem<MoveSystem>())
 				.Add(CreateSystem<LinkPositionSystem>())
 				.Add(CreateSystem<PlayerLookCalculationSystem>())
+				.Add(CreateSystem<EnemyLookSystem>())
 				.Add(CreateSystem<LookRotationSystem>());
 		}
 	}
