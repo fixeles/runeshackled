@@ -1,5 +1,6 @@
 ﻿using Database;
 using ECS.Components;
+using ECS.Extensions;
 using ECS.Mono;
 using Enum;
 using FPS.Pool;
@@ -45,6 +46,7 @@ namespace ECS.Systems.Battle
 				AddAggro(entity, config);
 				TryAddAttack(entity, follower);
 				AddLookTracker(entity, config, follower);
+				AddSkills(entity, config);
 			}
 		}
 
@@ -61,8 +63,8 @@ namespace ECS.Systems.Battle
 				return;
 
 			ref var health = ref _world.GetPool<HealthComponent>().Add(entity);
-			health.MaxHealth = new ViewableProperty<float>(config.Health);
-			health.CurrentHealth = new ViewableProperty<float>(config.Health);
+			health.MaxHealth = config.Health;
+			health.CurrentHealth = config.Health;
 
 			var hitable = _world.GetPool<MonoReference<HitableMono>>().Add(entity).Reference =
 				follower.GetComponentInChildren<HitableMono>();
@@ -84,6 +86,19 @@ namespace ECS.Systems.Battle
 				return;
 
 			_world.GetPool<AggroComponent>().Add(enemyEntity).AggroRadius = config.AggroRadius;
+		}
+
+
+		private void AddSkills(int playerEntity, CombatUnitConfig config)
+		{
+			foreach (var skillId in config.Skills)
+			{
+				Debug.Log(skillId);
+				var skillEntity = _world.CreateLifetimedEntity(playerEntity);
+				_world.GetPool<SkillId>().Add(skillEntity) = skillId;
+				_world.GetPool<InitRequest>().Add(skillEntity);
+				_world.GetPool<ChildComponent>().Add(skillEntity).OwnerEntity = playerEntity;
+			}
 		}
 	}
 }

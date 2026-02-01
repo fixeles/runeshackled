@@ -17,7 +17,7 @@ namespace ECS.Systems
 		{
 			_world = world;
 			_mainCamera = mainCamera;
-			_filter = _world.Filter<PlayerTag>().Inc<InitRequest>().End();
+			_filter = _world.Filter<PlayerTeam>().Inc<InitRequest>().End();
 		}
 
 		public void Run(IEcsSystems systems)

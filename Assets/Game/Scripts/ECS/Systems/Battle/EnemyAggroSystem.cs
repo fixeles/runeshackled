@@ -15,8 +15,8 @@ namespace ECS.Systems.Battle
 		public EnemyAggroSystem(EcsWorld world)
 		{
 			_world = world;
-			_aggroFilter = _world.Filter<EnemyTag>().Inc<AggroComponent>().Exc<HasTargetComponent>().End();
-			_playerFilter = _world.Filter<PlayerTag>().Inc<MonoReference<HitableMono>>().End();
+			_aggroFilter = _world.Filter<EnemyTeam>().Inc<AggroComponent>().Exc<HasTargetComponent>().End();
+			_playerFilter = _world.Filter<PlayerTeam>().Inc<MonoReference<HitableMono>>().End();
 		}
 
 		public void Run(IEcsSystems systems)

@@ -16,6 +16,7 @@ namespace ECS.Systems.Common
 			_world = world;
 			AddRequest<InitRequest>();
 			AddRequest<MoveRequest>();
+			AddRequest<PreparationRequest>();
 			AddRequest<UseRequest>();
 			AddRequest<DamageRequest>();
 			AddRequest<DeathRequest>();

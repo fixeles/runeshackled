@@ -13,7 +13,7 @@ namespace ECS.Systems.Look
 		public void Init(IEcsSystems systems)
 		{
 			_camera = Camera.main;
-			_playerFilter = systems.GetWorld().Filter<PlayerTag>().Inc<LookDirection>().End();
+			_playerFilter = systems.GetWorld().Filter<PlayerTeam>().Inc<LookDirection>().End();
 		}
 
 		public void Run(IEcsSystems systems)

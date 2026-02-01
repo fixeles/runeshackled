@@ -14,7 +14,7 @@ namespace ECS.Systems.Look
 		public EnemyLookSystem(EcsWorld world)
 		{
 			_world = world;
-			_filter = _world.Filter<EnemyTag>().Inc<MonoReference<NavigationAgent>>().Inc<LookDirection>().End();
+			_filter = _world.Filter<EnemyTeam>().Inc<MonoReference<NavigationAgent>>().Inc<LookDirection>().End();
 		}
 
 		public void Run(IEcsSystems systems)

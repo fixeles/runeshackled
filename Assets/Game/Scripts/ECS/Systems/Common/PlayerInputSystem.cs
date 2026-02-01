@@ -20,8 +20,8 @@ namespace ECS.Systems.Common
 		{
 			_inputs = inputs;
 			_world = world;
-			_playerFilter = world.Filter<PlayerTag>().End();
-			_activeSkillFilter = world.Filter<SelectedSkill>().Exc<PreparationComponent>().Exc<CooldownComponent>().End();
+			_playerFilter = world.Filter<PlayerTeam>().End();
+			_activeSkillFilter = world.Filter<SelectedSkill>().End();
 		}
 
 		public void Init(IEcsSystems systems)
@@ -38,7 +38,7 @@ namespace ECS.Systems.Common
 		{
 			foreach (var skillEntity in _activeSkillFilter)
 			{
-				_world.GetPool<PreparationComponent>().Add(skillEntity).TimeLeft += 0.5f; //todo: from config
+				_world.GetPool<PreparationRequest>().Add(skillEntity);
 			}
 		}
 

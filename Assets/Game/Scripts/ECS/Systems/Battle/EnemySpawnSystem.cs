@@ -3,7 +3,6 @@ using ECS.Components;
 using ECS.Extensions;
 using ECS.FSM;
 using Enum;
-using FPS.Pool;
 using Leopotam.EcsLite;
 using VContainer;
 using Lifetime = JetBrains.Lifetimes.Lifetime;
@@ -14,16 +13,14 @@ namespace ECS.Systems.Battle
 	{
 		private readonly EcsWorld _world;
 		private readonly CMS _cms;
-		private readonly IObjectPool _pool;
 		private readonly EcsFilter _spawnerFilter;
 		public AppState TargetState => AppState.Battle;
 
 		[Inject]
-		public EnemySpawnSystem(EcsWorld world, CMS cms, IObjectPool pool)
+		public EnemySpawnSystem(EcsWorld world, CMS cms)
 		{
 			_world = world;
 			_cms = cms;
-			_pool = pool;
 			_spawnerFilter = _world.Filter<SpawnerComponent>().Exc<CooldownComponent>().End();
 		}
 
@@ -42,11 +39,11 @@ namespace ECS.Systems.Battle
 				_world.GetPool<CooldownComponent>().Add(entity).TimeLeft = _cms.GameConfig.EnemySpawnFrequency;
 			}
 		}
-		
+
 		private void SpawnEnemy(Lifetime lifetime)
 		{
 			var enemyEntity = _world.CreateLifetimedEntity(lifetime);
-			_world.GetPool<EnemyTag>().Add(enemyEntity);
+			_world.GetPool<EnemyTeam>().Add(enemyEntity);
 			_world.GetPool<UnitId>().Add(enemyEntity) = UnitId.base_enemy;
 			_world.GetPool<InitRequest>().Add(enemyEntity);
 		}

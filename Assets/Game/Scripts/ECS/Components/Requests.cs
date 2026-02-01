@@ -14,6 +14,7 @@ namespace ECS.Components
 	}
 
 	public struct UseRequest { }
+	public struct PreparationRequest { }
 	public struct InitRequest { }
 	public struct DeathRequest { }
 

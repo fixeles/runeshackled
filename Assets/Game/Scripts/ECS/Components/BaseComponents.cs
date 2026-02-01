@@ -51,8 +51,8 @@ namespace ECS.Components
 
 	public struct HealthComponent
 	{
-		public IViewableProperty<float> MaxHealth;
-		public IViewableProperty<float> CurrentHealth;
+		public float MaxHealth;
+		public float CurrentHealth;
 	}
 
 	public struct HasTargetComponent

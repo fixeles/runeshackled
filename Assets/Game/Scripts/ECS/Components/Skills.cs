@@ -1,6 +1,6 @@
 ﻿namespace ECS.Components
 {
-	public struct MeleeAttack { }
+	// public struct MeleeAttack { }
 
 	public struct Maskable
 	{
