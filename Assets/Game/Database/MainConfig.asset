@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 199a34a4f2ec4a34989fc6a0b1324a27, type: 3}
   m_Name: MainConfig
   m_EditorClassIdentifier: Assembly-CSharp::Database.GameConfig
-  <EnemySpawnFrequency>k__BackingField: 1
+  <EnemySpawnFrequency>k__BackingField: 60
   <CombatUnits>k__BackingField: {fileID: 11400000, guid: 70551d881a846f24bab3f50946ccdf2b, type: 2}
   <Skills>k__BackingField: {fileID: 11400000, guid: 78ee26767a588a0458943af75c8a7f55, type: 2}

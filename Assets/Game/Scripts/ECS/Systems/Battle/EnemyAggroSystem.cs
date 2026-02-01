@@ -34,7 +34,11 @@ namespace ECS.Systems.Battle
 					var isInAggroRadius = sqrDistance < sqrAggroRadius;
 
 					if (isInAggroRadius)
-						_world.GetPool<HasTargetComponent>().Add(enemyEntity).TargetEntity = playerEntity;
+					{
+						ref var hasTargetComponent = ref _world.GetPool<HasTargetComponent>().Add(enemyEntity);
+						hasTargetComponent.TargetEntity = playerEntity;
+						hasTargetComponent.SqrDistanceToTarget = sqrDistance;
+					}
 				}
 			}
 		}

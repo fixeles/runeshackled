@@ -26,25 +26,6 @@ namespace ECS.Systems.Battle.Skills
 			_initFilter = _world.Filter<SkillId>().Inc<InitRequest>().End();
 		}
 
-		private void TryInit()
-		{
-			foreach (var skillEntity in _initFilter)
-			{
-				var skillId = _world.GetPool<SkillId>().Get(skillEntity);
-				var config = _cms.GameConfig.Skills.Get(skillId);
-
-				_world.GetPool<Damage>().Add(skillEntity).Value = config.Damage;
-				_world.GetPool<Range>().Add(skillEntity).Value = config.Range;
-				_world.GetPool<SelectedSkill>().Add(skillEntity);
-
-				ref var maskable = ref _world.GetPool<Maskable>().Add(skillEntity);
-
-				var owner = _world.GetPool<ChildComponent>().Get(skillEntity).OwnerEntity;
-				var isEnemy = _world.GetPool<EnemyTeam>().Has(owner);
-				maskable.LayerMask = LayerMask.GetMask(isEnemy ? "Player" : "Enemy");
-			}
-		}
-
 		public void Run(IEcsSystems systems)
 		{
 			TryInit();
@@ -64,7 +45,7 @@ namespace ECS.Systems.Battle.Skills
 				var cooldown = _cms.GameConfig.Skills.Get(skillId).Cooldown;
 				if (cooldown > 0)
 					_world.GetPool<CooldownComponent>().Add(skillEntity).TimeLeft = cooldown;
-				
+
 				if (!isRaycastHit)
 					continue;
 
@@ -77,6 +58,33 @@ namespace ECS.Systems.Battle.Skills
 				request.TargetEntity = hitableMono.Entity;
 				ref var damage = ref _world.GetPool<Damage>().Get(skillEntity);
 				request.DamageValue = damage.Value;
+			}
+		}
+
+		private void TryInit()
+		{
+			foreach (var skillEntity in _initFilter)
+			{
+				var skillId = _world.GetPool<SkillId>().Get(skillEntity);
+				var config = _cms.GameConfig.Skills.Get(skillId);
+
+				_world.GetPool<Damage>().Add(skillEntity).Value = config.Damage;
+				_world.GetPool<Range>().Add(skillEntity).Value = config.Range;
+				_world.GetPool<SelectedSkill>().Add(skillEntity);
+
+				ref var maskable = ref _world.GetPool<Maskable>().Add(skillEntity);
+
+				var owner = _world.GetPool<ChildComponent>().Get(skillEntity).OwnerEntity;
+				var isEnemy = _world.GetPool<EnemyTeam>().Has(owner);
+				maskable.LayerMask = LayerMask.GetMask(isEnemy ? "Player" : "Enemy");
+
+
+				if (isEnemy)
+				{
+					var sqrRange = config.Range - 1;
+					sqrRange *= sqrRange;
+					_world.GetPool<AiSkillUse>().Add(skillEntity).SqrDistanceToUse = sqrRange;
+				}
 			}
 		}
 	}

@@ -4,6 +4,7 @@ using ECS.Systems.Battle.Health;
 using ECS.Systems.Battle.Skills;
 using ECS.Systems.Look;
 using ECS.Systems.Move;
+using ECS.Systems.Timer;
 using Leopotam.EcsLite;
 using VContainer;
 
@@ -25,6 +26,11 @@ namespace ECS.Entry.Builder
 				.Add(CreateSystem<TargetResetSystem>()) //before aggro
 				.Add(CreateSystem<EnemyAggroSystem>())
 				.Add(CreateSystem<TargetFollowSystem>())
+				.Add(CreateSystem<TargetDistanceUpdateSystem>())
+				
+				.Add(CreateSystem<InputUseSkillSystem>())
+				.Add(CreateSystem<AiSkillUseSystem>())
+				.Add(CreateSystem<UsePreparationSystem>())
 				.Add(CreateSystem<RaycastAttackSystem>())
 				
 				.Add(CreateSystem<MoveSystem>())

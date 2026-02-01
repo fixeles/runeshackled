@@ -8,38 +8,23 @@ using VContainer;
 
 namespace ECS.Systems.Common
 {
-	public class PlayerInputSystem : IEcsRunSystem, IEcsInitSystem, IEcsDestroySystem
+	public class InputMoveSystem : IEcsRunSystem
 	{
 		private readonly EcsFilter _playerFilter;
-		private readonly EcsFilter _activeSkillFilter;
 		private readonly GameInputs _inputs;
 		private readonly EcsWorld _world;
 
 		[Inject]
-		public PlayerInputSystem(GameInputs inputs, EcsWorld world)
+		public InputMoveSystem(GameInputs inputs, EcsWorld world)
 		{
 			_inputs = inputs;
 			_world = world;
 			_playerFilter = world.Filter<PlayerTeam>().Exc<AiMovable>().End();
-			_activeSkillFilter = world.Filter<SelectedSkill>().End();
-		}
-
-		public void Init(IEcsSystems systems)
-		{
-			_inputs.Gameplay.Attack.performed += TryUseSkill;
 		}
 
 		public void Run(IEcsSystems systems)
 		{
 			TryMove();
-		}
-
-		private void TryUseSkill(InputAction.CallbackContext callbackContext)
-		{
-			foreach (var skillEntity in _activeSkillFilter)
-			{
-				_world.GetPool<PreparationRequest>().Add(skillEntity);
-			}
 		}
 
 		private void TryMove()
@@ -62,11 +47,6 @@ namespace ECS.Systems.Common
 				var moveDirection = new Vector3(input.x, 0, input.y).normalized;
 				request.Position = unitView.transform.position + moveDirection;
 			}
-		}
-
-		public void Destroy(IEcsSystems systems)
-		{
-			_inputs.Gameplay.Attack.performed -= TryUseSkill;
 		}
 	}
 }

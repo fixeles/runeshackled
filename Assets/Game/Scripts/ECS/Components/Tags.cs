@@ -8,5 +8,8 @@
 
 	public struct AiMovable { }
 
-	public struct AiAttackable { }
+	public struct AiSkillUse
+	{
+		public float SqrDistanceToUse;
+	}
 }

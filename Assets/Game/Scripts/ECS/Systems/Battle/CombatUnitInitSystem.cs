@@ -89,14 +89,19 @@ namespace ECS.Systems.Battle
 		}
 
 
-		private void AddSkills(int playerEntity, CombatUnitConfig config)
+		private void AddSkills(int ownerEntity, CombatUnitConfig config)
 		{
-			foreach (var skillId in config.Skills)
+			ref var skills = ref _world.GetPool<SkillsOwner>().Add(ownerEntity);
+			skills.SkillsEntities = new int[config.Skills.Length];
+			var isEnemy = _world.GetPool<EnemyTeam>().Has(ownerEntity);
+
+			for (var i = 0; i < config.Skills.Length; i++)
 			{
-				var skillEntity = _world.CreateLifetimedEntity(playerEntity);
-				_world.GetPool<SkillId>().Add(skillEntity) = skillId;
+				var skillEntity = _world.CreateLifetimedEntity(ownerEntity);
+				skills.SkillsEntities[i] = skillEntity;
+				_world.GetPool<SkillId>().Add(skillEntity) = config.Skills[i];
 				_world.GetPool<InitRequest>().Add(skillEntity);
-				_world.GetPool<ChildComponent>().Add(skillEntity).OwnerEntity = playerEntity;
+				_world.GetPool<ChildComponent>().Add(skillEntity).OwnerEntity = ownerEntity;
 			}
 		}
 	}

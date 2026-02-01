@@ -18,5 +18,21 @@ namespace ECS.Extensions
 			component = hasComponent ? pool.Get(entity) : default;
 			return hasComponent;
 		}
+
+		public static bool TryAdd<T>(this EcsPool<T> pool, int entity) where T : struct
+		{
+			if (pool.Has(entity))
+				return false;
+
+			pool.Add(entity);
+			return true;
+		}
+
+		public static bool TryAdd<T>(this EcsPool<T> pool, int entity, out T component) where T : struct
+		{
+			var hasComponent = pool.Has(entity);
+			component = !hasComponent ? pool.Add(entity) : default;
+			return !hasComponent;
+		}
 	}
 }

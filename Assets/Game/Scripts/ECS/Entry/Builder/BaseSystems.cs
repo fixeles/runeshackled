@@ -12,10 +12,9 @@ namespace ECS.Entry.Builder
 		public override void Build(IEcsSystems systems)
 		{
 			systems
-				.Add(CreateSystem<PlayerInputSystem>())
+				.Add(CreateSystem<InputMoveSystem>())
 				.Add(CreateSystem<PositionUpdateSystem>())
 				.Add(CreateSystem<TimerUpdateSystem>())
-				.Add(CreateSystem<UsePreparationSystem>())
 				.Add(CreateSystem<CooldownSystem>());
 		}
 	}
