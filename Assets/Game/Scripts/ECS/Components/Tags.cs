@@ -5,7 +5,7 @@
 	public struct EnemyTeam { }
 
 	public struct SelectedSkill { }
-
+	
 	public struct AiMovable { }
 
 	public struct AiSkillUse

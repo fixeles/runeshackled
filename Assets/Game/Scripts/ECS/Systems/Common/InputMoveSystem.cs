@@ -19,7 +19,7 @@ namespace ECS.Systems.Common
 		{
 			_inputs = inputs;
 			_world = world;
-			_playerFilter = world.Filter<PlayerTeam>().Exc<AiMovable>().End();
+			_playerFilter = world.Filter<PlayerTeam>().Exc<AiMovable>().Exc<ImmobilizedComponent>().End();
 		}
 
 		public void Run(IEcsSystems systems)
@@ -31,7 +31,12 @@ namespace ECS.Systems.Common
 		{
 			var inputAction = _inputs.Gameplay.Move;
 			if (inputAction.phase is not (InputActionPhase.Performed or InputActionPhase.Started))
+			{
+				foreach (var playerEntity in _playerFilter)
+					_world.GetPool<ImmobilizedComponent>().Add(playerEntity);
+
 				return;
+			}
 
 			var input = inputAction.ReadValue<Vector2>();
 			AddMoveRequest(input);

@@ -33,6 +33,7 @@ namespace ECS.Entry.Builder
 				.Add(CreateSystem<UsePreparationSystem>())
 				.Add(CreateSystem<RaycastAttackSystem>())
 				
+				.Add(CreateSystem<ImmobilizationSystem>())
 				.Add(CreateSystem<MoveSystem>())
 				.Add(CreateSystem<LinkPositionSystem>())
 				

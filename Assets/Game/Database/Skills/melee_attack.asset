@@ -15,4 +15,5 @@ MonoBehaviour:
   <Damage>k__BackingField: 50
   <Range>k__BackingField: 3
   <Cooldown>k__BackingField: 0
-  <CastTime>k__BackingField: 0.3
+  <CastTime>k__BackingField: 0.5
+  <CanMoveWhileCast>k__BackingField: 0

@@ -14,7 +14,7 @@ namespace ECS.Systems.Battle
 		public TargetFollowSystem(EcsWorld world)
 		{
 			_world = world;
-			_filter = _world.Filter<HasTargetComponent>().Inc<MonoReference<NavigationAgent>>().End();
+			_filter = _world.Filter<HasTargetComponent>().Inc<MonoReference<NavigationAgent>>().Exc<ImmobilizedComponent>().End();
 		}
 
 		public void Run(IEcsSystems systems)

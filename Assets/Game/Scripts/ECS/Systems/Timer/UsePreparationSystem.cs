@@ -1,5 +1,6 @@
 ﻿using Database;
 using ECS.Components;
+using ECS.Extensions;
 using Enum;
 using Leopotam.EcsLite;
 using UnityEngine;
@@ -26,13 +27,13 @@ namespace ECS.Systems.Timer
 		public void Run(IEcsSystems systems)
 		{
 			HandleRequests();
-			
+
 			foreach (var entity in _preparationFilter)
 			{
 				var pool = _world.GetPool<PreparationComponent>();
 				ref var preparationComponent = ref pool.Get(entity);
 				preparationComponent.TimeLeft -= Time.deltaTime;
-				
+
 				if (preparationComponent.TimeLeft > 0)
 					continue;
 
@@ -46,8 +47,16 @@ namespace ECS.Systems.Timer
 			foreach (var entity in _requestsFilter)
 			{
 				var skillId = _world.GetPool<SkillId>().Get(entity);
-				var castTime = _cms.GameConfig.Skills.Get(skillId).CastTime;
+				var skillConfig = _cms.GameConfig.Skills.Get(skillId);
+				var castTime = skillConfig.CastTime;
 				_world.GetPool<PreparationComponent>().Add(entity).TimeLeft = castTime;
+
+				if (!skillConfig.CanMoveWhileCast)
+				{
+					var owner = _world.GetPool<ChildComponent>().Get(entity).OwnerEntity;
+					_world.GetPool<ImmobilizedComponent>().GetOrAdd(owner).TimeLeft = castTime;
+				}
+
 				//todo: start animation? or another system?
 			}
 		}

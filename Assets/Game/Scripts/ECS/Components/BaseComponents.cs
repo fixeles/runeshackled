@@ -32,8 +32,6 @@ namespace ECS.Components
 		public UnitId Id;
 	}
 
-	public struct Movable { }
-
 	public struct PositionComponent
 	{
 		public Vector3 Value;
@@ -45,6 +43,11 @@ namespace ECS.Components
 	}
 
 	public struct PreparationComponent
+	{
+		public float TimeLeft;
+	}
+
+	public struct ImmobilizedComponent
 	{
 		public float TimeLeft;
 	}

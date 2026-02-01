@@ -2,7 +2,6 @@
 using ECS.Extensions;
 using Enum;
 using Leopotam.EcsLite;
-using UnityEngine;
 using VContainer;
 
 namespace ECS.Systems.Battle.Skills
@@ -33,12 +32,8 @@ namespace ECS.Systems.Battle.Skills
 
 				ref var ai = ref _world.GetPool<AiSkillUse>().Get(skillEntity);
 
-				if (targetComponent.SqrDistanceToTarget < ai.SqrDistanceToUse)
-				{
+				if (targetComponent.SqrDistanceToTarget < ai.SqrDistanceToUse) 
 					_world.GetPool<PreparationRequest>().TryAdd(skillEntity);
-
-					Debug.Log("prep");
-				}
 			}
 		}
 	}

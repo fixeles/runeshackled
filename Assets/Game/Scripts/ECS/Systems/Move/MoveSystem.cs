@@ -3,7 +3,7 @@ using ECS.Mono;
 using Leopotam.EcsLite;
 using VContainer;
 
-namespace ECS.Systems
+namespace ECS.Systems.Move
 {
 	public class MoveSystem : IEcsRunSystem, IEcsInitSystem
 	{
@@ -27,6 +27,7 @@ namespace ECS.Systems
 			{
 				var requestPosition = _world.GetPool<MoveRequest>().Get(entity).Position;
 				var agent = _world.GetPool<MonoReference<NavigationAgent>>().Get(entity).Reference.Agent;
+				agent.isStopped = false;
 				agent.SetDestination(requestPosition);
 			}
 		}

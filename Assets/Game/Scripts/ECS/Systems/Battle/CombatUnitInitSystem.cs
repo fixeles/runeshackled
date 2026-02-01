@@ -34,20 +34,30 @@ namespace ECS.Systems.Battle
 				var id = _world.GetPool<UnitId>().Get(entity);
 				var config = _cms.GameConfig.CombatUnits.Get(id);
 
-				var navigationAgent = _objectPool.Get<NavigationAgent>();
-				_world.GetPool<MonoReference<NavigationAgent>>().Add(entity).Reference = navigationAgent;
-
 				var follower = _objectPool.Get<NavigationFollower>(id.ToString());
 				_world.GetPool<MonoReference<NavigationFollower>>().Add(entity).Reference = follower;
+				_world.GetPool<PositionComponent>().Add(entity).Value = follower.CachedTransform.position;
 
-				_world.GetPool<PositionComponent>().Add(entity).Value = navigationAgent.CachedTransform.position;
 
 				AddHitable(entity, config, follower);
 				AddAggro(entity, config);
 				TryAddAttack(entity, follower);
 				AddLookTracker(entity, config, follower);
 				AddSkills(entity, config);
+				AddNavigation(entity, config);
 			}
+		}
+
+		private void AddNavigation(int entity, CombatUnitConfig config)
+		{
+			if (config.AgentMoveSpeed <= 0)
+				return;
+
+			var agentComponent = _objectPool.Get<NavigationAgent>();
+			_world.GetPool<MonoReference<NavigationAgent>>().Add(entity).Reference = agentComponent;
+			agentComponent.Agent.acceleration = config.AgentAcceleration;
+			agentComponent.Agent.speed = config.AgentMoveSpeed;
+			agentComponent.Agent.angularSpeed = config.AgentAngularSpeed;
 		}
 
 
@@ -93,7 +103,6 @@ namespace ECS.Systems.Battle
 		{
 			ref var skills = ref _world.GetPool<SkillsOwner>().Add(ownerEntity);
 			skills.SkillsEntities = new int[config.Skills.Length];
-			var isEnemy = _world.GetPool<EnemyTeam>().Has(ownerEntity);
 
 			for (var i = 0; i < config.Skills.Length; i++)
 			{

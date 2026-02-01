@@ -9,5 +9,6 @@ namespace Database
 		[field: SerializeField, Min(0)] public float Range { get; private set; }
 		[field: SerializeField, Min(0)] public float Cooldown { get; private set; }
 		[field: SerializeField, Min(0)] public float CastTime { get; private set; }
+		[field: SerializeField, Min(0)] public bool CanMoveWhileCast { get; private set; }
 	}
 }
