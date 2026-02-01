@@ -20,7 +20,7 @@ namespace ECS.Systems.Common
 		{
 			_inputs = inputs;
 			_world = world;
-			_playerFilter = world.Filter<PlayerTeam>().End();
+			_playerFilter = world.Filter<PlayerTeam>().Exc<AiMovable>().End();
 			_activeSkillFilter = world.Filter<SelectedSkill>().End();
 		}
 

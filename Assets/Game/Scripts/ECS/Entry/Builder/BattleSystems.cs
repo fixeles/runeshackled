@@ -2,7 +2,6 @@
 using ECS.Systems.Battle;
 using ECS.Systems.Battle.Health;
 using ECS.Systems.Battle.Skills;
-using ECS.Systems.Common;
 using ECS.Systems.Look;
 using ECS.Systems.Move;
 using Leopotam.EcsLite;
@@ -36,7 +35,8 @@ namespace ECS.Entry.Builder
 				.Add(CreateSystem<LookRotationSystem>())
 
 				.Add(CreateSystem<DamageSystem>())
-				.Add(CreateSystem<DeathSystem>());
+				.Add(CreateSystem<DeathSystem>())
+				.Add(CreateSystem<PlayerDeathSystem>());
 		}
 	}
 }

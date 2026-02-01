@@ -24,9 +24,13 @@ namespace ECS.Systems.Battle.Health
 				ref var request = ref _world.GetPool<DamageRequest>().Get(entity);
 				ref var targetHealth = ref _world.GetPool<HealthComponent>().Get(request.TargetEntity);
 				targetHealth.CurrentHealth -= request.DamageValue;
-				
-				if (targetHealth.CurrentHealth <= 0)
-					_world.GetPool<DeathRequest>().Add(request.TargetEntity);
+
+				if (targetHealth.CurrentHealth > 0)
+					continue;
+
+				var deathPool = _world.GetPool<DeathRequest>();
+				if (!deathPool.Has(request.TargetEntity))
+					deathPool.Add(request.TargetEntity);
 			}
 		}
 	}

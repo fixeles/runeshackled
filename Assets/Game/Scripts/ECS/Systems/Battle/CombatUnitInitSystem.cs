@@ -93,7 +93,6 @@ namespace ECS.Systems.Battle
 		{
 			foreach (var skillId in config.Skills)
 			{
-				Debug.Log(skillId);
 				var skillEntity = _world.CreateLifetimedEntity(playerEntity);
 				_world.GetPool<SkillId>().Add(skillEntity) = skillId;
 				_world.GetPool<InitRequest>().Add(skillEntity);
